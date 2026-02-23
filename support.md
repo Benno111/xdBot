@@ -1,1 +1,3 @@
-Donete to me in my kofi [here](https://ko-fi.com/zilko)
+Community (Discord): https://discord.gg/w6yvdzVzBd
+
+Issues: https://github.com/Benno111/xdBot/issues/new

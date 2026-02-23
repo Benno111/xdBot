@@ -60,7 +60,7 @@ protected:
     void onButton(CCObject*) {
         CCArray* children = CCDirector::sharedDirector()->getRunningScene()->getChildren();
         if (FLAlertLayer* layer = typeinfo_cast<FLAlertLayer*>(children->lastObject()))
-            layer->keyBackClicked();
+            layer->removeFromParentAndCleanup(true);
 
         RecordLayer::openMenu();
     }

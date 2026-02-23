@@ -1,3 +1,7 @@
+# v2.5.0-alpha.1
+
+* Added support for Geometry Dash 2.2081 and Geode 5.0.
+
 # v2.4.1
 
 * Added Auto Clicker keybind.

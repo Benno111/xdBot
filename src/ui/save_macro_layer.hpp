@@ -1,7 +1,7 @@
 #pragma once
 #include "../includes.hpp"
 
-class SaveMacroLayer : public geode::Popup<> {
+class SaveMacroLayer : public xdb::Popup<> {
 
     TextInput* authorInput = nullptr;
     TextInput* descInput = nullptr;

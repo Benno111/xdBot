@@ -12,6 +12,7 @@
 #include <Geode/utils/web.hpp>
 
 #include <sstream>
+#include <array>
 #include <filesystem>
 #include <fstream>
 
@@ -84,6 +85,8 @@ class $modify(FMODAudioEngine) {
 
         if (path != "playSound_01.ogg" || !Global::get().renderer.recordingAudio)
             return FMODAudioEngine::playEffect(path, speed, p2, volume);
+
+        return 0;
     }
 
 };
@@ -415,7 +418,30 @@ void Renderer::start() {
         });
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-        if ((SFXVolume == 0.f && musicVolume == 0.f) || audioMode == AudioMode::Off || (audioMode == AudioMode::Song && !std::filesystem::exists(songFile)) || (audioMode == AudioMode::Record && !std::filesystem::exists("fmodoutput.wav"))) {
+        std::filesystem::path tempDir = Mod::get()->getTempDir();
+        if (!std::filesystem::exists(tempDir)) {
+            (void)utils::file::createDirectoryAll(tempDir);
+        }
+
+        auto resolveFmodOutputPath = [&]() -> std::filesystem::path {
+            std::array<std::filesystem::path, 4> candidates = {
+                tempDir / "fmodoutput.wav",
+                geode::dirs::getModRuntimeDir() / "fmodoutput.wav",
+                std::filesystem::current_path() / "fmodoutput.wav",
+                std::filesystem::path("fmodoutput.wav")
+            };
+
+            for (auto const& candidate : candidates) {
+                if (std::filesystem::exists(candidate))
+                    return candidate;
+            }
+
+            return tempDir / "fmodoutput.wav";
+        };
+
+        std::filesystem::path fmodOutputPath = resolveFmodOutputPath();
+
+        if ((SFXVolume == 0.f && musicVolume == 0.f) || audioMode == AudioMode::Off || (audioMode == AudioMode::Song && !std::filesystem::exists(songFile)) || (audioMode == AudioMode::Record && !std::filesystem::exists(fmodOutputPath))) {
             if (audioMode != AudioMode::Off) {
                 Loader::get()->queueInMainThread([] {
                     FLAlertLayer::create("Error", "Song File not found.", "Ok")->show();
@@ -435,11 +461,11 @@ void Renderer::start() {
             return;
         }
 
-        std::filesystem::path tempPath = std::filesystem::path(path).parent_path() / ("temp_" + std::filesystem::path(path).filename().string());
-        std::filesystem::path tempPathAudio = (Mod::get()->getSaveDir() / "temp_audio_file.wav");
+        std::filesystem::path tempPath = tempDir / ("temp_" + std::filesystem::path(path).filename().string());
+        std::filesystem::path tempPathAudio = tempDir / "temp_audio_file.wav";
 
         if (usingApi) {
-            std::string file = audioMode == AudioMode::Song ? songFile : "fmodoutput.wav";
+            std::string file = audioMode == AudioMode::Song ? songFile : fmodOutputPath.string();
             auto res = ffmpeg::events::AudioMixer::mixVideoAudio(path, file, tempPath);
             log::debug("XD");
             if (res.isErr()) {
@@ -474,8 +500,8 @@ void Renderer::start() {
             }
 
             if (audioMode == AudioMode::Record) {
-                command = fmt::format("\"{}\" -i \"fmodoutput.wav\" -acodec pcm_s16le -ar 44100 -ac 2 \"{}\"",
-                    ffmpegPath, tempPathAudio
+                command = fmt::format("\"{}\" -i \"{}\" -acodec pcm_s16le -ar 44100 -ac 2 \"{}\"",
+                    ffmpegPath, fmodOutputPath.string(), tempPathAudio
                 );
 
                 process = subprocess::Popen(command);  // Fix ffmpeg not reading it
@@ -550,8 +576,11 @@ void Renderer::start() {
         if (ec) log::warn("Failed to remove temp audio file.");
 
         ec.clear();
-        std::filesystem::remove("fmodoutput.wav", ec);
+        std::filesystem::remove(fmodOutputPath, ec);
         if (ec) log::warn("Failed to remove fmod audio file.");
+
+        ec.clear();
+        std::filesystem::remove(tempDir / "fmodoutput.wav", ec);
 
         Loader::get()->queueInMainThread([] {
             Notification::create("Render Saved With Audio", NotificationIcon::Success)->show();
@@ -772,8 +801,8 @@ void Renderer::startAudio(PlayLayer* pl) {
     if (dontRecordAudio) return;
 
     if (pl->m_levelEndAnimationStarted && endLevelLayer != nullptr) {
-        CCKeyboardDispatcher::get()->dispatchKeyboardMSG(enumKeyCodes::KEY_Space, true, false);
-        CCKeyboardDispatcher::get()->dispatchKeyboardMSG(enumKeyCodes::KEY_Space, false, false);
+        CCKeyboardDispatcher::get()->dispatchKeyboardMSG(enumKeyCodes::KEY_Space, true, false, 0.0);
+        CCKeyboardDispatcher::get()->dispatchKeyboardMSG(enumKeyCodes::KEY_Space, false, false, 0.0);
     }
     else if (!pl->m_levelEndAnimationStarted) {
 

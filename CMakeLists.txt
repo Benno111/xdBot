@@ -5,6 +5,9 @@ set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(xdBot2 VERSION 1.0.0)
+
+option(XDBOT_ENABLE_TEST_BUILDS "Enable test targets in this project and dependencies" OFF)
+set(BUILD_TESTING ${XDBOT_ENABLE_TEST_BUILDS} CACHE BOOL "Build tests" FORCE)
  
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp
@@ -171,12 +174,36 @@ if (MSVC)
     endif()
 endif()
 
+if (WIN32)
+    # bindings 2.2081 misses <sys/timeb.h> in a couple of inline files that use _ftime64_s.
+    # Re-apply this fix on configure so Codegen updates don't reintroduce build breaks.
+    set(_bindings_inline_dir "${CMAKE_CURRENT_BINARY_DIR}/_deps/bindings-src/bindings/2.2081/inline")
+    foreach(_inline_file DialogLayer.cpp GameStatsManager.cpp)
+        set(_inline_path "${_bindings_inline_dir}/${_inline_file}")
+        if (EXISTS "${_inline_path}")
+            file(READ "${_inline_path}" _inline_content)
+            if (_inline_content MATCHES "__timeb64|_ftime64_s")
+                if (NOT _inline_content MATCHES "#include <sys/timeb.h>")
+                    string(REPLACE
+                        "#include <Geode/Bindings.hpp>\n"
+                        "#include <Geode/Bindings.hpp>\n\n#if defined(GEODE_IS_WINDOWS)\n#include <sys/timeb.h>\n#endif\n"
+                        _inline_content
+                        "${_inline_content}"
+                    )
+                    file(WRITE "${_inline_path}" "${_inline_content}")
+                    message(STATUS "Applied MSVC compatibility patch to ${_inline_file} (sys/timeb.h include)")
+                endif()
+            endif()
+        endif()
+    endforeach()
+endif()
 if (TARGET GeodeBindings)
     # MSVC 19.42 can ICE in Geode Event.hpp under Unity builds and also emit
     # a large amount of duplicate object-name warnings in this target.
     set_target_properties(GeodeBindings PROPERTIES UNITY_BUILD OFF)
     if (MSVC)
         target_compile_options(GeodeBindings PRIVATE
+            /FS
             $<$<CONFIG:Release>:/Od /Ob0>
             $<$<CONFIG:RelWithDebInfo>:/Od /Ob0>
             $<$<CONFIG:MinSizeRel>:/Od /Ob0>

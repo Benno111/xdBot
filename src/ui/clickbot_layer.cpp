@@ -285,7 +285,7 @@ bool ClickbotLayer::setup() {
 	return true;
 }
 
-ClickSettingsLayer* ClickSettingsLayer::create(std::string button, geode::Popup<>* layer) {
+ClickSettingsLayer* ClickSettingsLayer::create(std::string button, geode::Popup* layer) {
 	ClickSettingsLayer* ret = new ClickSettingsLayer();
 	if (ret->initAnchored(250, 173, button, layer, Utils::getTexture().c_str())) {
 		ret->autorelease();
@@ -296,7 +296,7 @@ ClickSettingsLayer* ClickSettingsLayer::create(std::string button, geode::Popup<
 	return nullptr;
 }
 
-bool ClickSettingsLayer::setup(std::string button, geode::Popup<>* layer) {
+bool ClickSettingsLayer::setup(std::string button, geode::Popup* layer) {
 	cocos2d::CCPoint offset = (CCDirector::sharedDirector()->getWinSize() - m_mainLayer->getContentSize()) / 2;
     m_mainLayer->setPosition(m_mainLayer->getPosition() - offset);
     m_closeBtn->setPosition(m_closeBtn->getPosition() + offset);
@@ -396,24 +396,11 @@ bool ClickSettingsLayer::setup(std::string button, geode::Popup<>* layer) {
 }
 
 void ClickSettingsLayer::onSelectFile(CCObject*) {
-	file::FilePickOptions::Filter textFilter;
-	file::FilePickOptions fileOptions;
-	textFilter.description = "Macro Files";
-	textFilter.files = { "*.mp3", "*.ogg" };
-	fileOptions.filters.push_back(textFilter);
-
-	file::pick(file::PickMode::OpenFile, { Mod::get()->getResourcesDir(), { textFilter } }).listen([this](Result<std::filesystem::path>* res) {
-		if (res->isOk()) {
-			std::filesystem::path path = res->unwrapOrDefault();
-
-			filenameLabel->setString(path.filename().string().c_str());
-
-			settings.path = path;
-			saveSettings();
-
-			static_cast<ClickbotLayer*>(clickbotLayer)->updateLabels();
-		}
-		});
+	FLAlertLayer::create(
+		"Notice",
+		"File picker is temporarily disabled on this Geode v5 migration branch.",
+		"Ok"
+	)->show();
 }
 
 void ClickSettingsLayer::onRestore(CCObject*) {

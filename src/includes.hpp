@@ -9,11 +9,32 @@
 #include <queue>
 #include <cmath>
 #include <vector>
+#include <utility>
 
 #include "renderer/renderer.hpp"
 #include "macro.hpp"
 
 using namespace geode::prelude;
+
+namespace xdb {
+template <class... SetupArgs>
+class Popup : public geode::Popup {
+protected:
+    virtual bool setup(SetupArgs... args) = 0;
+
+public:
+    bool initAnchored(
+        float width,
+        float height,
+        SetupArgs... args,
+        char const* bg = "GJ_square01.png",
+        cocos2d::CCRect bgRect = {}
+    ) {
+        if (!this->init(width, height, bg, bgRect)) return false;
+        return this->setup(std::forward<SetupArgs>(args)...);
+    }
+};
+}
 
 const int seedAddr = 0x6a4e20;
 
@@ -79,7 +100,7 @@ public:
     static PauseLayer* getPauseLayer();
 
     Mod* mod = Mod::get();
-    geode::Popup<>* layer = nullptr;
+    geode::Popup* layer = nullptr;
 
     Macro macro;
     Renderer renderer;

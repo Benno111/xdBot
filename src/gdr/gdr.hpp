@@ -14,7 +14,7 @@ cocos2d::CCPoint dataFromString(std::string dataString);
 
 std::vector<std::string> splitByChar(std::string str, char splitChar);
 
-const std::string xdBotVersion = "v2.3.11";
+const std::string xdBotVersion = "v2.5.0-alpha.1";
 
 namespace gdr {
 

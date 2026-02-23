@@ -34,6 +34,8 @@
 
 * Thanks to Viper for letting me use their Safe Mode implementation.
 
+* Thanks to Zilko for creating this awesome mod.
+
 * Thanks to ReplayBot for being open source and letting me steal the code for the renderer.
 
 * Thanks to CatXus and Aadam_yes for helping me test the early android versions.

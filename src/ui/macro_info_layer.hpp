@@ -2,7 +2,7 @@
 #include "../includes.hpp"
 #include <Geode/ui/MDTextArea.hpp>
 
-class MacroInfoLayer : public geode::Popup<> {
+class MacroInfoLayer : public xdb::Popup<> {
 
 public:
 

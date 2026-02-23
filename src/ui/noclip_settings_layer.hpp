@@ -1,6 +1,6 @@
 #include "../includes.hpp"
 
-class NoclipSettingsLayer : public geode::Popup<> {
+class NoclipSettingsLayer : public xdb::Popup<> {
 
 private:
 	

@@ -1,7 +1,7 @@
 #include "../includes.hpp"
 #include "record_layer.hpp"
 
-class MirrorSettingsLayer : public geode::Popup<> {
+class MirrorSettingsLayer : public xdb::Popup<> {
 
 private:
 	
