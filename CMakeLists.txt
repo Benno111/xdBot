@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
@@ -44,6 +44,144 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
+if (MSVC)
+    # Some MSVC toolsets report _MSVC_LANG as 202004L under /std:c++latest.
+    # Geode currently hard-requires 202302L, so patch the local SDK check for MSVC.
+    set(_geode_platform_hpp "$ENV{GEODE_SDK}/loader/include/Geode/platform/platform.hpp")
+    set(_geode_event_hpp "$ENV{GEODE_SDK}/loader/include/Geode/loader/Event.hpp")
+    if (EXISTS "${_geode_platform_hpp}")
+        file(READ "${_geode_platform_hpp}" _geode_platform_content)
+        set(_geode_platform_original "${_geode_platform_content}")
+        string(REPLACE
+            "GEODE_CXX_STANDARD >= 202302L,"
+            "GEODE_CXX_STANDARD >= 202004L,"
+            _geode_platform_content
+            "${_geode_platform_content}"
+        )
+        if (NOT _geode_platform_content STREQUAL _geode_platform_original)
+            file(WRITE "${_geode_platform_hpp}" "${_geode_platform_content}")
+            message(STATUS "Applied MSVC compatibility patch to Geode platform.hpp C++ standard check")
+        endif()
+    endif()
+    if (EXISTS "${_geode_event_hpp}")
+        file(READ "${_geode_event_hpp}" _geode_event_content)
+        set(_geode_event_original "${_geode_event_content}")
+        string(REPLACE
+            "bool send(PArgs... args) noexcept(std::is_nothrow_invocable_v<geode::CopyableFunction<PReturn(PArgs...)>, PArgs...>);"
+            "bool send(PArgs... args);"
+            _geode_event_content
+            "${_geode_event_content}"
+        )
+        string(REPLACE
+            "::send(PArgs... args) noexcept(std::is_nothrow_invocable_v<geode::CopyableFunction<PReturn(PArgs...)>, PArgs...>) {"
+            "::send(PArgs... args) {"
+            _geode_event_content
+            "${_geode_event_content}"
+        )
+        if (NOT _geode_event_content STREQUAL _geode_event_original)
+            file(WRITE "${_geode_event_hpp}" "${_geode_event_content}")
+            message(STATUS "Applied MSVC compatibility patch to Geode Event.hpp send() noexcept")
+        endif()
+    endif()
+endif()
+
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
+
+if (MSVC)
+    # ARC v1.5.3 uses a few C++23 constructs that still fail on some MSVC toolchains.
+    # Patch vendored headers in build/_deps so builds are reproducible without manual edits.
+    set(_arc_future_dir "${CMAKE_CURRENT_BINARY_DIR}/_deps/arc-src/include/arc/future")
+    set(_arc_pollable_hpp "${_arc_future_dir}/Pollable.hpp")
+    set(_arc_metadata_hpp "${_arc_future_dir}/PollableMetadata.hpp")
+    set(_arc_future_hpp "${_arc_future_dir}/Future.hpp")
+
+    if (EXISTS "${_arc_pollable_hpp}")
+        file(READ "${_arc_pollable_hpp}" _arc_pollable_content)
+        set(_arc_pollable_original "${_arc_pollable_content}")
+        string(REPLACE
+            "bool await_suspend(this auto& self, std::coroutine_handle<> h) noexcept(NothrowPoll) {\n        return self.template fastSuspend<Derived>(h);\n    }"
+            "bool await_suspend(std::coroutine_handle<> h) noexcept(NothrowPoll) {\n        return this->template fastSuspend<Derived>(h);\n    }"
+            _arc_pollable_content
+            "${_arc_pollable_content}"
+        )
+        string(REPLACE
+            "bool fastSuspend(this Derived& self, std::coroutine_handle<> h) {\n        constexpr bool IsNothrowPollable = ::arc::IsNothrowPollable<Derived>;\n\n        auto cx = contextFromHandle(h);\n        bool ready = self.template vPoll<IsNothrowPollable>(&self, *cx);\n        if (ready) {\n            // fast path - no need to attach to parent\n            return false;\n        }\n\n        // attach to parent and suspend\n        self.attachToParent(h);\n        return true;\n    }"
+            "bool fastSuspend(std::coroutine_handle<> h) {\n        constexpr bool IsNothrowPollable = ::arc::IsNothrowPollable<Derived>;\n\n        auto* self = static_cast<Derived*>(this);\n        auto cx = contextFromHandle(h);\n        bool ready = self->template vPoll<IsNothrowPollable>(self, *cx);\n        if (ready) {\n            // fast path - no need to attach to parent\n            return false;\n        }\n\n        // attach to parent and suspend\n        self->attachToParent(h);\n        return true;\n    }"
+            _arc_pollable_content
+            "${_arc_pollable_content}"
+        )
+        string(REPLACE
+            "constexpr auto meta = PollableMetadata::create<Derived>();"
+            "const auto meta = PollableMetadata::create<Derived>();"
+            _arc_pollable_content
+            "${_arc_pollable_content}"
+        )
+        string(REPLACE
+            "inline static constinit const PollableVtable vtable = [] {"
+            "inline static const PollableVtable vtable = [] {"
+            _arc_pollable_content
+            "${_arc_pollable_content}"
+        )
+        if (NOT _arc_pollable_content STREQUAL _arc_pollable_original)
+            file(WRITE "${_arc_pollable_hpp}" "${_arc_pollable_content}")
+            message(STATUS "Applied MSVC compatibility patch to arc/future/Pollable.hpp")
+        endif()
+    endif()
+
+    if (EXISTS "${_arc_metadata_hpp}")
+        file(READ "${_arc_metadata_hpp}" _arc_metadata_content)
+        set(_arc_metadata_original "${_arc_metadata_content}")
+        string(REPLACE
+            "static constexpr const PollableMetadata* create() {"
+            "static const PollableMetadata* create() {"
+            _arc_metadata_content
+            "${_arc_metadata_content}"
+        )
+        string(REPLACE
+            "static constexpr auto value = [] {"
+            "static const auto value = [] {"
+            _arc_metadata_content
+            "${_arc_metadata_content}"
+        )
+        if (NOT _arc_metadata_content STREQUAL _arc_metadata_original)
+            file(WRITE "${_arc_metadata_hpp}" "${_arc_metadata_content}")
+            message(STATUS "Applied MSVC compatibility patch to arc/future/PollableMetadata.hpp")
+        endif()
+    endif()
+
+    if (EXISTS "${_arc_future_hpp}")
+        file(READ "${_arc_future_hpp}" _arc_future_content)
+        set(_arc_future_original "${_arc_future_content}")
+        string(REPLACE
+            "static constexpr PollableVtable vtable {"
+            "inline static const PollableVtable vtable {"
+            _arc_future_content
+            "${_arc_future_content}"
+        )
+        string(REPLACE
+            "auto resume = [&] noexcept {"
+            "auto resume = [&] {"
+            _arc_future_content
+            "${_arc_future_content}"
+        )
+        if (NOT _arc_future_content STREQUAL _arc_future_original)
+            file(WRITE "${_arc_future_hpp}" "${_arc_future_content}")
+            message(STATUS "Applied MSVC compatibility patch to arc/future/Future.hpp")
+        endif()
+    endif()
+endif()
+
+if (TARGET GeodeBindings)
+    # MSVC 19.42 can ICE in Geode Event.hpp under Unity builds and also emit
+    # a large amount of duplicate object-name warnings in this target.
+    set_target_properties(GeodeBindings PROPERTIES UNITY_BUILD OFF)
+    if (MSVC)
+        target_compile_options(GeodeBindings PRIVATE
+            $<$<CONFIG:Release>:/Od /Ob0>
+            $<$<CONFIG:RelWithDebInfo>:/Od /Ob0>
+            $<$<CONFIG:MinSizeRel>:/Od /Ob0>
+        )
+    endif()
+endif()
 
 setup_geode_mod(${PROJECT_NAME})

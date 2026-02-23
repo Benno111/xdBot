@@ -1,14 +1,14 @@
 {
-	"geode": "4.4.0",
+	"geode": "5.0.0",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074"
+		"win": "2.2081",
+		"android": "2.2081"
 	},
 	"version": "2.4.1",
-	"id": "zilko.xdbot",
+	"id": "Benno111.xdbot",
 	"name": "xdBot",
-	"developer": "Zilko",
-	"description": "Best Free Bot fr",
+	"developer": "Benno111",
+	"description": "Best Free Bot for geometry dash updated to 2.2.81",
 	"dependencies": [
 		{
 			"id": "geode.custom-keybinds",
@@ -142,7 +142,7 @@
             "resources/default_release_right.mp3"
         ]
     },
-	"links": { "source": "https://github.com/ZiLko/xdBot", "community": "https://discord.gg/w6yvdzVzBd" },
+	"links": { "source": "https://github.com/Benno111/xdBot", "community": "" },
 	"tags": ["gameplay", "utility", "cheat"]
 
 }
