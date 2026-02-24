@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\da766a0a882b5f1ffdffc97a29a17e87\INSTALL_force.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\da766a0a882b5f1ffdffc97a29a17e87\INSTALL_force.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>

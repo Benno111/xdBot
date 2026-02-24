@@ -1,6 +1,9 @@
 param(
     [string]$BuildDir = "build",
     [string]$Config = "RelWithDebInfo",
+    [string]$ModTarget = "geobot2",
+    [string]$GeodeBindingsLib = "",
+    [bool]$SuppressRegen = $true,
     [int]$Jobs = [Math]::Max(1, [Environment]::ProcessorCount),
     [switch]$Clean,
     [switch]$UseGeode,
@@ -8,7 +11,12 @@ param(
     [switch]$BuildOnly,
     [switch]$SkipConfigure,
     [switch]$UseCompilerCache = $true,
-    [switch]$EnableHighPerformanceGpu
+    [switch]$EnableHighPerformanceGpu,
+    [switch]$UsePrebuilt,
+    [switch]$UsePrecompiledGeodeBindings,
+    [switch]$ForceConfigure,
+    [switch]$QuietNinja,
+    [switch]$FastRebuild
 )
 
 $ErrorActionPreference = "Stop"
@@ -61,12 +69,86 @@ if (-not (Test-Path $BuildDir)) {
     New-Item -ItemType Directory -Path $BuildDir | Out-Null
 }
 
+if ($FastRebuild) {
+    $UsePrecompiledGeodeBindings = $true
+    $UsePrebuilt = $true
+    $QuietNinja = $true
+    $SkipConfigure = $true
+    $UseGeode = $true
+    $BuildOnly = $true
+}
+
+if (-not $Clean -and -not $UseGeode -and -not $UsePrebuilt -and -not $UsePrecompiledGeodeBindings -and -not $ForceConfigure) {
+    $cachePathAuto = Join-Path $BuildDir "CMakeCache.txt"
+    $rootBindingsAuto = Join-Path "." "GeodeBindings-win.lib"
+    if ((Test-Path $cachePathAuto) -and (Test-Path $rootBindingsAuto)) {
+        Write-Host "Auto fast-path: found cached build + root GeodeBindings-win.lib, enabling precompiled bindings mode."
+        $UsePrecompiledGeodeBindings = $true
+    }
+}
+
+if ($UsePrebuilt) {
+    $UseGeode = $true
+    $BuildOnly = $true
+    $SkipConfigure = $true
+}
+
+if ($UsePrecompiledGeodeBindings) {
+    $UsePrebuilt = $true
+    $UseGeode = $true
+    $BuildOnly = $true
+    $SkipConfigure = $true
+}
+
 if ($EnableHighPerformanceGpu) {
     Set-HighPerformanceGpuPreference -ToolNames @("geode", "cmake", "ninja")
     Write-Host "Applied Windows high-performance GPU preference for build tools (tool support dependent)."
 }
 
+$localBindingsRepo = Join-Path $BuildDir "_deps\bindings-src"
+if ((-not $env:GEODE_BINDINGS_REPO_PATH) -and (Test-Path $localBindingsRepo)) {
+    $env:GEODE_BINDINGS_REPO_PATH = (Resolve-Path $localBindingsRepo).Path
+    Write-Host "Using local bindings repo path: $env:GEODE_BINDINGS_REPO_PATH"
+}
+
 if ($UseGeode) {
+    if ($UsePrebuilt -and -not (Test-Path (Join-Path $BuildDir "CMakeCache.txt"))) {
+        throw "Prebuilt mode requires an existing configured Geode build folder (build/CMakeCache.txt). Run one full build first."
+    }
+
+    if ($UsePrecompiledGeodeBindings) {
+        $bindingsCandidates = @()
+        if (-not [string]::IsNullOrWhiteSpace($GeodeBindingsLib)) {
+            $bindingsCandidates += $GeodeBindingsLib
+        }
+        $bindingsCandidates += @(
+            (Join-Path "." "GeodeBindings-win.lib"),
+            (Join-Path $BuildDir "bindings\GeodeBindings-win.lib"),
+            (Join-Path $BuildDir "bindings\GeodeBindings.lib")
+        )
+
+        $bindingsLib = $bindingsCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+        if (-not $bindingsLib) {
+            throw "Precompiled GeodeBindings not found. Checked: $($bindingsCandidates -join ', '). Run one full build first."
+        }
+        Write-Host "Using precompiled GeodeBindings at '$bindingsLib'"
+    }
+
+    if ($UsePrebuilt) {
+        $buildCmd = @("--build", $BuildDir, "--config", $Config, "--target", $ModTarget, "--parallel", $Jobs)
+        if ($QuietNinja) {
+            $buildCmd += "--"
+            $buildCmd += "--quiet"
+        }
+        Write-Host "Running strict prebuilt target build: cmake $($buildCmd -join ' ')"
+        cmake @buildCmd
+        if ($LASTEXITCODE -ne 0) {
+            throw "Prebuilt target build failed."
+        }
+        Write-Host "Build completed."
+        exit 0
+    }
+
     $cmd = @("build", "--config", $Config)
     if ($Ninja) {
         $cmd += "--ninja"
@@ -103,10 +185,13 @@ if ($UseGeode) {
 else {
     $cachePath = Join-Path $BuildDir "CMakeCache.txt"
     $launcher = Get-CompilerLauncher
-    $mustConfigure = -not $SkipConfigure -or -not (Test-Path $cachePath)
+    $mustConfigure = $ForceConfigure -or (-not (Test-Path $cachePath))
 
     if ($mustConfigure) {
         $configureCmd = @("-S", ".", "-B", $BuildDir, "-DCMAKE_BUILD_TYPE=$Config")
+        if ($SuppressRegen) {
+            $configureCmd += "-DCMAKE_SUPPRESS_REGENERATION=ON"
+        }
         if ($launcher) {
             $configureCmd += "-DCMAKE_C_COMPILER_LAUNCHER=$launcher"
             $configureCmd += "-DCMAKE_CXX_COMPILER_LAUNCHER=$launcher"

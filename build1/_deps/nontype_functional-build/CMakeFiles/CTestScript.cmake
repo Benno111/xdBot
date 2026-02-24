@@ -5,8 +5,8 @@
 cmake_minimum_required(VERSION 4.2.3)
 
 # CTest Start Step
-set(CTEST_SOURCE_DIRECTORY "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-src")
-set(CTEST_BINARY_DIRECTORY "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-build")
+set(CTEST_SOURCE_DIRECTORY "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-src")
+set(CTEST_BINARY_DIRECTORY "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-build")
 
 # CTest Update Step
 set(CTEST_UPDATE_COMMAND "C:/Program Files/Git/cmd/git.exe")

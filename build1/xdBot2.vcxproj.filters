@@ -1,85 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\xdBot2.dir\cmake_pch.cxx">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\geobot2.dir\cmake_pch.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\main.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\global.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\macro.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\macro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\keybinds.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\keybinds.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\utils\utils.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\utils\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\gdr\gdr.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\gdr\gdr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\renderer\renderer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\renderer\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\other.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\other.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\tps_bypass.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\tps_bypass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\frame_stepper.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\frame_stepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\layout_mode.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\layout_mode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\show_trajectory.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\show_trajectory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\coin_finder.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\coin_finder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\clickbot.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\clickbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\hacks\autoclicker.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\hacks\autoclicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\macro_editor.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\macro_editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\button_edit_layer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\button_edit_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\game_ui.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\game_ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\record_layer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\record_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\render_settings_layer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\render_settings_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\load_macro_layer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\load_macro_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\clickbot_layer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\clickbot_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\ui\button_setting.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\ui\button_setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\practice_fixes\input.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\practice_fixes\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\practice_fixes\player.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\practice_fixes\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\src\practice_fixes\play_layer.cpp">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\src\practice_fixes\play_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Benno111\Documents\Geode\entry.cpp">
@@ -87,33 +87,33 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\xdBot2.dir\Debug\cmake_pch.hxx">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\geobot2.dir\Debug\cmake_pch.hxx">
       <Filter>Precompile Header File</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\xdBot2.dir\Release\cmake_pch.hxx">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\geobot2.dir\Release\cmake_pch.hxx">
       <Filter>Precompile Header File</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\xdBot2.dir\MinSizeRel\cmake_pch.hxx">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\geobot2.dir\MinSizeRel\cmake_pch.hxx">
       <Filter>Precompile Header File</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\xdBot2.dir\RelWithDebInfo\cmake_pch.hxx">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\geobot2.dir\RelWithDebInfo\cmake_pch.hxx">
       <Filter>Precompile Header File</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-src\include\std23\function_ref.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-src\include\std23\function_ref.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-src\include\std23\function.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-src\include\std23\function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-src\include\std23\move_only_function.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-src\include\std23\move_only_function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-src\include\std23\__functional_base.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-src\include\std23\__functional_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

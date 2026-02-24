@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\json-subbuild\CMakeFiles\044ec1ea4d6dc938a58ee90ab173b3ff\generate.stamp.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\json-subbuild\CMakeFiles\044ec1ea4d6dc938a58ee90ab173b3ff\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>

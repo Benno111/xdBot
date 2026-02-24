@@ -5,8 +5,8 @@
 		"android": "2.2081"
 	},
 	"version": "2.4.1",
-	"id": "Benno111.xdbot",
-	"name": "xdBot",
+	"id": "Benno111.geobot",
+	"name": "geobot",
 	"developer": "Benno111",
 	"description": "Best Free Bot for geometry dash updated to 2.2.81",
 	"dependencies": [
@@ -92,7 +92,7 @@
 		},
 		"level_settings_button": {
 			"name": "Show Button At Settings",
-			"description": "Shows the xdBot button in the level settings layer.",
+			"description": "Shows the geobot button in the level settings layer.",
 			"type": "bool",
 			"default": false
 		},
@@ -142,7 +142,7 @@
             "resources/default_release_right.mp3"
         ]
     },
-	"links": { "source": "https://github.com/Benno111/xdBot", "community": "" },
+	"links": { "source": "https://github.com/Benno111/geobot", "community": "" },
 	"tags": ["gameplay", "utility", "cheat"]
 
 }

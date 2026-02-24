@@ -4,8 +4,8 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-src
-BuildDirectory: C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-build
+SourceDirectory: C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-src
+BuildDirectory: C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-build
 
 # Where to place the cost data store
 CostDataFile: 
@@ -27,7 +27,7 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files/CMake/bin/cmake.exe" "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-src"
+ConfigureCommand: "C:/Program Files/CMake/bin/cmake.exe" "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-src"
 MakeCommand: "C:\Program Files\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 

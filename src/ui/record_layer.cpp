@@ -65,7 +65,7 @@ const std::vector<std::vector<RecordSetting>> settings {
 };
 
 namespace {
-void addXdBotPauseButton(cocos2d::CCLayer* layer) {
+void addgeobotPauseButton(cocos2d::CCLayer* layer) {
 #ifdef GEODE_IS_WINDOWS
     if (!Mod::get()->getSavedValue<bool>("menu_show_button")) return;
 #endif
@@ -105,14 +105,14 @@ void addXdBotPauseButton(cocos2d::CCLayer* layer) {
 class $modify(PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
-        addXdBotPauseButton(this);
+        addgeobotPauseButton(this);
     }
 };
 
 class $modify(EditorPauseLayer) {
     void customSetup() {
         EditorPauseLayer::customSetup();
-        addXdBotPauseButton(this);
+        addgeobotPauseButton(this);
     }
 };
 
@@ -259,7 +259,7 @@ void RecordLayer::togglePlaying(CCObject*) {
         g.currentAction = 0;
         g.currentFrameFix = 0;
 
-        g.macro.xdBotMacro = g.macro.botInfo.name == "xdBot";
+        g.macro.geobotMacro = g.macro.botInfo.name == "geobot";
         
         PlayLayer* pl = PlayLayer::get();
 
@@ -483,7 +483,7 @@ void RecordLayer::toggleSetting(CCObject* obj) {
         }
 
         if (!value)
-            Notification::create("xdBot Button is disabled.", NotificationIcon::Warning)->show();
+            Notification::create("geobot Button is disabled.", NotificationIcon::Warning)->show();
     }
 }
 
@@ -491,7 +491,7 @@ void RecordLayer::showKeybindsWarning() {
     if (!mod->setSavedValue("opened_keybinds", true))
         FLAlertLayer::create(
             "Warning",
-            "Scroll down to find xdBot's keybinds",
+            "Scroll down to find geobot's keybinds",
             "Ok"
         )->show();
 }
@@ -514,10 +514,10 @@ void RecordLayer::openKeybinds(CCObject*) {
     CCNode* contentLayer = scrollLayer->getChildByID("content-layer");
     if (!contentLayer) return showKeybindsWarning();
 
-    CCNode* xdBot = contentLayer->getChildByID("xdBot");
-    if (!xdBot) return showKeybindsWarning();
+    CCNode* geobot = contentLayer->getChildByID("geobot");
+    if (!geobot) return showKeybindsWarning();
 
-    contentLayer->setPositionY(xdBot->getPositionY() - 118);
+    contentLayer->setPositionY(geobot->getPositionY() - 118);
 
 #else
 
@@ -545,15 +545,22 @@ void RecordLayer::showCodecPopup(CCObject*) {
 }
 
 void RecordLayer::updateDots() {
-    for (int i = 0; i < dots.size(); i++) {
-        if (i == Global::get().currentPage) {
-            dots[i]->setScale(0.4);
-            dots[i]->setOpacity(255);
-        }
-        else {
-            dots[i]->setScale(0.3f);
-            dots[i]->setOpacity(70);
-        }
+    int pageCount = static_cast<int>(settings.size());
+    if (pageCount <= 0) return;
+
+    int page = Global::get().currentPage;
+    if (page < 0) page = 0;
+    if (page >= pageCount) page = pageCount - 1;
+
+    if (pageSlider) {
+        updatingPageSlider = true;
+        float value = pageCount > 1 ? static_cast<float>(page) / static_cast<float>(pageCount - 1) : 0.f;
+        pageSlider->setValue(value);
+        updatingPageSlider = false;
+    }
+
+    if (pageLabel) {
+        pageLabel->setString(fmt::format("Page {}/{}", page + 1, pageCount).c_str());
     }
 }
 
@@ -574,21 +581,6 @@ bool RecordLayer::setup() {
     menu = CCMenu::create();
     m_mainLayer->addChild(menu);
 
-    for (int i = 0; i < settings.size(); i++) {
-        CCSprite* dot = CCSprite::create("smallDot.png");
-        menu->addChild(dot);
-        dots.push_back(dot);
-    }
-
-    float spacing = 10.f;
-    float width = (dots.size() - 1) * spacing;
-    float center = 103 - (width / 2.0f);
-
-    for (int i = 0; i < dots.size(); ++i)
-        dots[i]->setPosition({ center + i * spacing, 96.5f });
-
-    updateDots();
-
     warningSprite = CCSprite::createWithSpriteFrameName("geode.loader/info-alert.png");
     warningSprite->setScale(0.675f);
     warningSprite->setPosition({ 82, 307 });
@@ -606,7 +598,7 @@ bool RecordLayer::setup() {
     CCSprite* spriteOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
     CCSprite* spriteOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
 
-    CCLabelBMFont* versionLabel = CCLabelBMFont::create(("xdBot " + xdBotVersion).c_str(), "chatFont.fnt");
+    CCLabelBMFont* versionLabel = CCLabelBMFont::create(("geobot " + geobotVersion).c_str(), "chatFont.fnt");
     versionLabel->setOpacity(63);
     versionLabel->setPosition(ccp(-217, -125));
     versionLabel->setAnchorPoint({ 0, 0.5 });
@@ -691,6 +683,22 @@ bool RecordLayer::setup() {
     lbl->setPosition(ccp(103, 111));
     lbl->setScale(0.7f);
     menu->addChild(lbl);
+
+    pageLabel = CCLabelBMFont::create("", "chatFont.fnt");
+    pageLabel->setPosition(ccp(103, 98.5f));
+    pageLabel->setScale(0.45f);
+    pageLabel->setOpacity(170);
+    menu->addChild(pageLabel);
+
+    pageSlider = Slider::create(
+        this,
+        menu_selector(RecordLayer::onPageSlider),
+        1.55f
+    );
+    pageSlider->setPosition({ 20.f, 86.f });
+    pageSlider->setAnchorPoint({ 0.f, 0.f });
+    pageSlider->setScale(0.42f);
+    menu->addChild(pageSlider);
 
     lbl = CCLabelBMFont::create("Record", "bigFont.fnt");
     lbl->setPosition(ccp(-161.5, 60));
@@ -948,30 +956,6 @@ bool RecordLayer::setup() {
     btn->setPosition(ccp(-36, 107));
     menu->addChild(btn);
 
-    spr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
-    spr->setScale(0.58f);
-    btn = CCMenuItemSpriteExtra::create(
-        spr,
-        this,
-        menu_selector(RecordLayer::updatePage)
-    );
-    btn->setPosition(ccp(-5, 0));
-    btn->setID("page-left");
-    menu->addChild(btn);
-
-    spr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
-    spr->setScale(0.58f);
-    spr->setScaleX(-0.58f);
-    btn = CCMenuItemSpriteExtra::create(
-        spr,
-        this,
-        menu_selector(RecordLayer::updatePage)
-    );
-    btn->setPosition(ccp(209, 4.3));
-    btn->setContentSize({ 26, 32.4 });
-    menu->addChild(btn);
-    static_cast<CCNode*>(btn->getChildren()->objectAtIndex(0))->setPositionX(13);
-
     for (int i = 0; i < 7; i++) {
         CCLabelBMFont* lbl = CCLabelBMFont::create("_______________________", "chatFont.fnt");
         lbl->setPosition(ccp(103, 97 - (i * 29)));
@@ -1221,6 +1205,23 @@ void RecordLayer::goToSettingsPage(int page) {
     updateTPS();
 
     Mod::get()->setSavedValue("current_page", page);
+}
+
+void RecordLayer::onPageSlider(CCObject*) {
+    if (updatingPageSlider || !pageSlider || settings.empty()) return;
+
+    int maxPage = static_cast<int>(settings.size()) - 1;
+    int newPage = static_cast<int>(std::round(pageSlider->getValue() * static_cast<float>(maxPage)));
+    if (newPage < 0) newPage = 0;
+    if (newPage > maxPage) newPage = maxPage;
+
+    if (newPage == Global::get().currentPage) {
+        updateDots();
+        return;
+    }
+
+    Global::get().currentPage = newPage;
+    goToSettingsPage(newPage);
 }
 
 void RecordLayer::onDiscord(CCObject*) {

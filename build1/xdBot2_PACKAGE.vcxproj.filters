@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\a14c39b7ed5d271f90a7984e646cb94d\xdBot2_PACKAGE.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\a14c39b7ed5d271f90a7984e646cb94d\geobot2_PACKAGE.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\CMakeFiles\xdBot2_PACKAGE" />
+    <None Include="C:\Users\Benno111\Documents\GitHub\geobot\build\CMakeFiles\geobot2_PACKAGE" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">

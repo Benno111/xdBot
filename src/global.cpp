@@ -2,6 +2,7 @@
 #include "ui/game_ui.hpp"
 
 #include <Geode/modify/CCTextInputNode.hpp>
+#include <Geode/modify/GJBaseGameLayer.hpp>
 
 #include <random>
 
@@ -154,24 +155,19 @@ float Global::getTPS() {
 }
 
 int Global::getCurrentFrame(bool editor) {
-  // double levelTime;
+  (void)editor;
   PlayLayer* pl = PlayLayer::get();
-
-  if (!pl) {
-    if (!editor) return 0;
-
-    // levelTime = GJBaseGameLayer::get()->m_gameState.m_levelTime;
-  }
+  GJBaseGameLayer* bgl = pl ? static_cast<GJBaseGameLayer*>(pl) : GJBaseGameLayer::get();
+  if (!bgl) return 0;
 
   auto& g = Global::get();
   int frame;
-  // levelTime = pl->m_gameState.m_levelTime;
 
-  if (!g.macro.xdBotMacro && g.state == state::playing) {
+  if (!g.macro.geobotMacro && g.state == state::playing && pl) {
     frame = pl->m_gameState.m_currentProgress;
   }
   else {
-    frame = static_cast<int>(pl->m_gameState.m_levelTime * getTPS());
+    frame = static_cast<int>(bgl->m_gameState.m_levelTime * getTPS());
     frame++;
   }
 

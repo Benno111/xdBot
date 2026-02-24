@@ -1,63 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\src\format.cc">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\src\format.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\src\os.cc">
+    <ClCompile Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\src\os.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\args.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\args.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\base.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\chrono.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\chrono.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\color.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\compile.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\compile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\core.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\format.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\format.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\format-inl.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\format-inl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\os.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\os.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\ostream.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\ostream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\printf.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\printf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\ranges.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\ranges.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\std.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\std.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\include\fmt\xchar.h">
+    <ClInclude Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\include\fmt\xchar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\README.md" />
-    <None Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\fmt-src\ChangeLog.md" />
+    <None Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\README.md" />
+    <None Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\fmt-src\ChangeLog.md" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

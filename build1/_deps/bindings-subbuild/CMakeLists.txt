@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(bindings-populate
                      "GIT_REPOSITORY" "https://github.com/geode-sdk/bindings.git" "GIT_TAG" "main"
-                    SOURCE_DIR          "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/bindings-src"
-                    BINARY_DIR          "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/bindings-build"
+                    SOURCE_DIR          "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/bindings-src"
+                    BINARY_DIR          "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/bindings-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

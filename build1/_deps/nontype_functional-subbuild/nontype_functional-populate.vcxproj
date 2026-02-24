@@ -46,13 +46,13 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-mkdir.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-mkdir.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/tmp/nontype_functional-populate-mkdirs.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/tmp/nontype_functional-populate-mkdirs.cmake
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-mkdir
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-mkdir
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -61,21 +61,21 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-mkdir</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-mkdir</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-download.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-download.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing download step (git clone) for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps
+cd C:\Users\Benno111\Documents\GitHub\geobot\build\_deps
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/tmp/nontype_functional-populate-gitclone.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/tmp/nontype_functional-populate-gitclone.cmake
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-download
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-download
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -83,20 +83,20 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\nontype_functional-populate-gitinfo.txt;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-download</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\nontype_functional-populate-gitinfo.txt;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-download</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-update.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-update.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing update step for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-src
+cd C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-src
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/tmp/nontype_functional-populate-gitupdate.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/tmp/nontype_functional-populate-gitupdate.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -104,19 +104,19 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\tmp\nontype_functional-populate-gitupdate.cmake;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\nontype_functional-populate-update-info.txt;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-download;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-update</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\tmp\nontype_functional-populate-gitupdate.cmake;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\nontype_functional-populate-update-info.txt;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-update</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-patch.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-patch.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-patch
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-patch
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -124,24 +124,24 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\nontype_functional-populate-patch-info.txt;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-update;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-patch</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\nontype_functional-populate-patch-info.txt;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-patch</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-configure.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-configure.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No configure step for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-build
+cd C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-configure
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-configure
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -149,23 +149,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\tmp\nontype_functional-populate-cfgcmd.txt;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-patch;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-configure</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\tmp\nontype_functional-populate-cfgcmd.txt;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-configure</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-build.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-build.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No build step for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-build
+cd C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-build
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-build
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -173,23 +173,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-configure;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-build</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-build</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-install.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-install.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-build
+cd C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-install
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-install
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -197,23 +197,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-build;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-install</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-install</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-test.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\e79b451fc08a64f5c49c3760b11429d0\nontype_functional-populate-test.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No test step for 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-build
+cd C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-test
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-test
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -221,21 +221,21 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-install;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-test</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-test</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\67efa53106167d1b0400ece95421e377\nontype_functional-populate-complete.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\67efa53106167d1b0400ece95421e377\nontype_functional-populate-complete.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'nontype_functional-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -E make_directory C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/CMakeFiles/Debug
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/CMakeFiles/Debug
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/CMakeFiles/Debug/nontype_functional-populate-complete
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/CMakeFiles/Debug/nontype_functional-populate-complete
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-done
+"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/nontype_functional-populate-prefix/src/nontype_functional-populate-stamp/Debug/nontype_functional-populate-done
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -243,14 +243,14 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-install;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-mkdir;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-download;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-update;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-patch;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-configure;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-build;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-test;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\Debug\nontype_functional-populate-complete</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-install;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-mkdir;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-download;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-update;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-patch;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-configure;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-build;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\src\nontype_functional-populate-stamp\Debug\nontype_functional-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\Debug\nontype_functional-populate-complete</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\3641d35859b6d147e3c874f2328b26d1\nontype_functional-populate.rule">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\3641d35859b6d147e3c874f2328b26d1\nontype_functional-populate.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
@@ -260,18 +260,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\Debug\nontype_functional-populate-complete;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\nontype_functional-populate</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\Debug\nontype_functional-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\nontype_functional-populate</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeLists.txt">
+    <CustomBuild Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild -BC:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild --check-stamp-file C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-subbuild/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild -BC:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild --check-stamp-file C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-subbuild/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -279,18 +279,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\PatchInfo.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\UpdateInfo.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\cfgcmd.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\gitclone.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\gitupdate.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\mkdirs.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\shared_internal_commands.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\4.2.3\CMakeSystem.cmake;C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\tmp\nontype_functional-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\PatchInfo.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\UpdateInfo.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\cfgcmd.txt.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\gitclone.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\gitupdate.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\mkdirs.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\ExternalProject\shared_internal_commands.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\4.2.3\CMakeSystem.cmake;C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\nontype_functional-populate-prefix\tmp\nontype_functional-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\CMakeFiles\nontype_functional-populate">
+    <None Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\CMakeFiles\nontype_functional-populate">
     </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Users\Benno111\Documents\GitHub\xdBot\build\_deps\nontype_functional-subbuild\ZERO_CHECK.vcxproj">
+    <ProjectReference Include="C:\Users\Benno111\Documents\GitHub\geobot\build\_deps\nontype_functional-subbuild\ZERO_CHECK.vcxproj">
       <Project>{E25A1DD2-2A84-3879-9B05-EE74B34B123B}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

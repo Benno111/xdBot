@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(nontype_functional-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/geode-sdk/nontype_functional.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "6d1d08c"
-                    SOURCE_DIR          "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-src"
-                    BINARY_DIR          "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/nontype_functional-build"
+                    SOURCE_DIR          "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-src"
+                    BINARY_DIR          "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/nontype_functional-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

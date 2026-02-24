@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/result-src
+# Install script for directory: C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/result-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/xdBot2")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/geobot2")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,6 +40,6 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/result-build/install_local_manifest.txt"
+  file(WRITE "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/result-build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

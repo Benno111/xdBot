@@ -436,7 +436,7 @@ events:
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.exe"
       
       The C compiler identification is Clang, found in:
-        C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/4.2.3/CompilerIdC/a.exe
+        C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/4.2.3/CompilerIdC/a.exe
       
   -
     kind: "message-v1"
@@ -2429,7 +2429,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
       
       The CXX compiler identification is Clang, found in:
-        C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/4.2.3/CompilerIdCXX/a.exe
+        C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/4.2.3/CompilerIdCXX/a.exe
       
   -
     kind: "message-v1"
@@ -3279,9 +3279,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/rc.com"
       - "C:/Windows/System32/rc.exe"
@@ -3373,15 +3373,15 @@ events:
       - "C:/Program Files/CMake/rc.com"
       - "C:/Program Files/CMake/rc.exe"
       - "C:/Program Files/CMake/rc"
-      - "C:/Program Files (x86)/xdBot2/bin/rc.com"
-      - "C:/Program Files (x86)/xdBot2/bin/rc.exe"
-      - "C:/Program Files (x86)/xdBot2/bin/rc"
-      - "C:/Program Files (x86)/xdBot2/sbin/rc.com"
-      - "C:/Program Files (x86)/xdBot2/sbin/rc.exe"
-      - "C:/Program Files (x86)/xdBot2/sbin/rc"
-      - "C:/Program Files (x86)/xdBot2/rc.com"
-      - "C:/Program Files (x86)/xdBot2/rc.exe"
-      - "C:/Program Files (x86)/xdBot2/rc"
+      - "C:/Program Files (x86)/geobot2/bin/rc.com"
+      - "C:/Program Files (x86)/geobot2/bin/rc.exe"
+      - "C:/Program Files (x86)/geobot2/bin/rc"
+      - "C:/Program Files (x86)/geobot2/sbin/rc.com"
+      - "C:/Program Files (x86)/geobot2/sbin/rc.exe"
+      - "C:/Program Files (x86)/geobot2/sbin/rc"
+      - "C:/Program Files (x86)/geobot2/rc.com"
+      - "C:/Program Files (x86)/geobot2/rc.exe"
+      - "C:/Program Files (x86)/geobot2/rc"
     found: false
     search_context:
       ENV{PATH}:
@@ -3406,12 +3406,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "find-v1"
     backtrace:
@@ -3463,9 +3463,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/llvm-rc.com"
       - "C:/Windows/System32/llvm-rc.exe"
@@ -3519,12 +3519,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "find-v1"
     backtrace:
@@ -3579,9 +3579,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/llvm-rc.com"
       - "C:/Windows/System32/llvm-rc.exe"
@@ -3635,12 +3635,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "try_compile-v1"
     backtrace:
@@ -3650,8 +3650,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-h4h47f"
-      binary: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-h4h47f"
+      source: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-h4h47f"
+      binary: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-h4h47f"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_C_FLAGS: ""
@@ -3662,7 +3662,7 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-h4h47f'
+        Change Dir: 'C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-h4h47f'
         
         Run Build Command(s): C:/Windows/ninja.exe -v cmTC_9506e
         [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang.exe -D_MBCS  -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -MD -MT CMakeFiles/cmTC_9506e.dir/CMakeCCompilerABI.c.obj -MF CMakeFiles\\cmTC_9506e.dir\\CMakeCCompilerABI.c.obj.d -o CMakeFiles/cmTC_9506e.dir/CMakeCCompilerABI.c.obj -c "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerABI.c"
@@ -3732,8 +3732,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-ikca96"
-      binary: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-ikca96"
+      source: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-ikca96"
+      binary: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-ikca96"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -3745,7 +3745,7 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-ikca96'
+        Change Dir: 'C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-ikca96'
         
         Run Build Command(s): C:/Windows/ninja.exe -v cmTC_7647f
         [1/2] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -MD -MT CMakeFiles/cmTC_7647f.dir/CMakeCXXCompilerABI.cpp.obj -MF CMakeFiles\\cmTC_7647f.dir\\CMakeCXXCompilerABI.cpp.obj.d -o CMakeFiles/cmTC_7647f.dir/CMakeCXXCompilerABI.cpp.obj -c "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerABI.cpp"
@@ -3818,8 +3818,8 @@ events:
     checks:
       - "Detecting CXX compile features"
     directories:
-      source: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p"
-      binary: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p"
+      source: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p"
+      binary: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -3830,10 +3830,10 @@ events:
       variable: "CMAKE_CXX_FEATURE_TEST"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p'
+        Change Dir: 'C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p'
         
         Run Build Command(s): C:/Windows/ninja.exe -v cmTC_90c95
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_90c95.dir/feature_tests.cxx.obj -MF CMakeFiles\\cmTC_90c95.dir\\feature_tests.cxx.obj.d -o CMakeFiles/cmTC_90c95.dir/feature_tests.cxx.obj -c C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p/feature_tests.cxx
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_90c95.dir/feature_tests.cxx.obj -MF CMakeFiles\\cmTC_90c95.dir\\feature_tests.cxx.obj.d -o CMakeFiles/cmTC_90c95.dir/feature_tests.cxx.obj -c C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-iavo0p/feature_tests.cxx
         [2/2] cmd.exe /C "cd . && C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link CMakeFiles/cmTC_90c95.dir/feature_tests.cxx.obj -o cmTC_90c95.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_90c95.lib -Xlinker /pdb:cmTC_90c95.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
         
       exitCode: 0
@@ -3849,8 +3849,8 @@ events:
     checks:
       - "Detecting CXX compile features"
     directories:
-      source: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u"
-      binary: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u"
+      source: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u"
+      binary: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -3861,10 +3861,10 @@ events:
       variable: "CMAKE_CXX_FEATURE_TEST"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u'
+        Change Dir: 'C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u'
         
         Run Build Command(s): C:/Windows/ninja.exe -v cmTC_37ddd
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_37ddd.dir/feature_tests.cxx.obj -MF CMakeFiles\\cmTC_37ddd.dir\\feature_tests.cxx.obj.d -o CMakeFiles/cmTC_37ddd.dir/feature_tests.cxx.obj -c C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u/feature_tests.cxx
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_37ddd.dir/feature_tests.cxx.obj -MF CMakeFiles\\cmTC_37ddd.dir\\feature_tests.cxx.obj.d -o CMakeFiles/cmTC_37ddd.dir/feature_tests.cxx.obj -c C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-2zft4u/feature_tests.cxx
         [2/2] cmd.exe /C "cd . && C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link CMakeFiles/cmTC_37ddd.dir/feature_tests.cxx.obj -o cmTC_37ddd.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_37ddd.lib -Xlinker /pdb:cmTC_37ddd.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
         
       exitCode: 0
@@ -3916,9 +3916,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/git.com"
       - "C:/Windows/System32/git.exe"
@@ -3966,12 +3966,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "find-v1"
     backtrace:
@@ -4021,9 +4021,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/sccache.com"
       - "C:/Windows/System32/sccache.exe"
@@ -4115,15 +4115,15 @@ events:
       - "C:/Program Files/CMake/sccache.com"
       - "C:/Program Files/CMake/sccache.exe"
       - "C:/Program Files/CMake/sccache"
-      - "C:/Program Files (x86)/xdBot2/bin/sccache.com"
-      - "C:/Program Files (x86)/xdBot2/bin/sccache.exe"
-      - "C:/Program Files (x86)/xdBot2/bin/sccache"
-      - "C:/Program Files (x86)/xdBot2/sbin/sccache.com"
-      - "C:/Program Files (x86)/xdBot2/sbin/sccache.exe"
-      - "C:/Program Files (x86)/xdBot2/sbin/sccache"
-      - "C:/Program Files (x86)/xdBot2/sccache.com"
-      - "C:/Program Files (x86)/xdBot2/sccache.exe"
-      - "C:/Program Files (x86)/xdBot2/sccache"
+      - "C:/Program Files (x86)/geobot2/bin/sccache.com"
+      - "C:/Program Files (x86)/geobot2/bin/sccache.exe"
+      - "C:/Program Files (x86)/geobot2/bin/sccache"
+      - "C:/Program Files (x86)/geobot2/sbin/sccache.com"
+      - "C:/Program Files (x86)/geobot2/sbin/sccache.exe"
+      - "C:/Program Files (x86)/geobot2/sbin/sccache"
+      - "C:/Program Files (x86)/geobot2/sccache.com"
+      - "C:/Program Files (x86)/geobot2/sccache.exe"
+      - "C:/Program Files (x86)/geobot2/sccache"
       - "C:/Windows/System32/ccache.com"
       - "C:/Windows/System32/ccache.exe"
       - "C:/Windows/System32/ccache"
@@ -4214,15 +4214,15 @@ events:
       - "C:/Program Files/CMake/ccache.com"
       - "C:/Program Files/CMake/ccache.exe"
       - "C:/Program Files/CMake/ccache"
-      - "C:/Program Files (x86)/xdBot2/bin/ccache.com"
-      - "C:/Program Files (x86)/xdBot2/bin/ccache.exe"
-      - "C:/Program Files (x86)/xdBot2/bin/ccache"
-      - "C:/Program Files (x86)/xdBot2/sbin/ccache.com"
-      - "C:/Program Files (x86)/xdBot2/sbin/ccache.exe"
-      - "C:/Program Files (x86)/xdBot2/sbin/ccache"
-      - "C:/Program Files (x86)/xdBot2/ccache.com"
-      - "C:/Program Files (x86)/xdBot2/ccache.exe"
-      - "C:/Program Files (x86)/xdBot2/ccache"
+      - "C:/Program Files (x86)/geobot2/bin/ccache.com"
+      - "C:/Program Files (x86)/geobot2/bin/ccache.exe"
+      - "C:/Program Files (x86)/geobot2/bin/ccache"
+      - "C:/Program Files (x86)/geobot2/sbin/ccache.com"
+      - "C:/Program Files (x86)/geobot2/sbin/ccache.exe"
+      - "C:/Program Files (x86)/geobot2/sbin/ccache"
+      - "C:/Program Files (x86)/geobot2/ccache.com"
+      - "C:/Program Files (x86)/geobot2/ccache.exe"
+      - "C:/Program Files (x86)/geobot2/ccache"
     found: false
     search_context:
       ENV{PATH}:
@@ -4247,12 +4247,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "find-v1"
     backtrace:
@@ -4305,9 +4305,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/geode.exe.com"
       - "C:/Windows/System32/geode.exe"
@@ -4362,12 +4362,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "try_compile-v1"
     backtrace:
@@ -4378,26 +4378,26 @@ events:
     checks:
       - "Performing Test HAS_NULLPTR_WARNING"
     directories:
-      source: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v"
-      binary: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v"
+      source: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v"
+      binary: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-O0 -g -Xclang -gcodeview"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/fmt-src/support/cmake"
+      CMAKE_MODULE_PATH: "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/fmt-src/support/cmake"
       CMAKE_MSVC_DEBUG_INFORMATION_FORMAT: "Embedded"
       CMAKE_OSX_ARCHITECTURES: "arm64;x86_64"
     buildResult:
       variable: "HAS_NULLPTR_WARNING"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v'
+        Change Dir: 'C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v'
         
         Run Build Command(s): C:/Windows/ninja.exe -v cmTC_cfe23
-        [1/4] cmd.exe /C ""C:/Program Files/LLVM/bin/clang-scan-deps.exe" -format=p1689 -- C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DHAS_NULLPTR_WARNING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wzero-as-null-pointer-constant -x c++ C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v/src.cxx -c -o CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj -resource-dir "C:/Program Files/LLVM/lib/clang/21" -MT CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi -MD -MF CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi.d > CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi.tmp && "C:/Program Files/CMake/bin/cmake.exe" -E rename CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi.tmp CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi"
+        [1/4] cmd.exe /C ""C:/Program Files/LLVM/bin/clang-scan-deps.exe" -format=p1689 -- C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DHAS_NULLPTR_WARNING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wzero-as-null-pointer-constant -x c++ C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v/src.cxx -c -o CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj -resource-dir "C:/Program Files/LLVM/lib/clang/21" -MT CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi -MD -MF CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi.d > CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi.tmp && "C:/Program Files/CMake/bin/cmake.exe" -E rename CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi.tmp CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.ddi"
         [2/4] "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_ninja_dyndep --tdi=CMakeFiles\\cmTC_cfe23.dir\\CXXDependInfo.json --lang=CXX --modmapfmt=clang --dd=CMakeFiles/cmTC_cfe23.dir/CXX.dd @CMakeFiles/cmTC_cfe23.dir/CXX.dd.rsp
-        [3/4] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DHAS_NULLPTR_WARNING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wzero-as-null-pointer-constant -MD -MT CMakeFiles/cmTC_cfe23.dir/src.cxx.obj -MF CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.d @CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.modmap -o CMakeFiles/cmTC_cfe23.dir/src.cxx.obj -c C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v/src.cxx
+        [3/4] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DHAS_NULLPTR_WARNING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wzero-as-null-pointer-constant -MD -MT CMakeFiles/cmTC_cfe23.dir/src.cxx.obj -MF CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.d @CMakeFiles\\cmTC_cfe23.dir\\src.cxx.obj.modmap -o CMakeFiles/cmTC_cfe23.dir/src.cxx.obj -c C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-70un7v/src.cxx
         [4/4] cmd.exe /C "cd . && C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link CMakeFiles/cmTC_cfe23.dir/src.cxx.obj -o cmTC_cfe23.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_cfe23.lib -Xlinker /pdb:cmTC_cfe23.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
         
       exitCode: 0
@@ -4411,8 +4411,8 @@ events:
     checks:
       - "Performing Test SUPPORTS_W_NO_EVERYTHING"
     directories:
-      source: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr"
-      binary: "C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr"
+      source: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr"
+      binary: "C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -4425,12 +4425,12 @@ events:
       variable: "SUPPORTS_W_NO_EVERYTHING"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr'
+        Change Dir: 'C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr'
         
         Run Build Command(s): C:/Windows/ninja.exe -v cmTC_079fd
-        [1/4] cmd.exe /C ""C:/Program Files/LLVM/bin/clang-scan-deps.exe" -format=p1689 -- C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DSUPPORTS_W_NO_EVERYTHING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wno-everything -x c++ C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr/src.cxx -c -o CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj -resource-dir "C:/Program Files/LLVM/lib/clang/21" -MT CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi -MD -MF CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi.d > CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi.tmp && "C:/Program Files/CMake/bin/cmake.exe" -E rename CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi.tmp CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi"
+        [1/4] cmd.exe /C ""C:/Program Files/LLVM/bin/clang-scan-deps.exe" -format=p1689 -- C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DSUPPORTS_W_NO_EVERYTHING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wno-everything -x c++ C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr/src.cxx -c -o CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj -resource-dir "C:/Program Files/LLVM/lib/clang/21" -MT CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi -MD -MF CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi.d > CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi.tmp && "C:/Program Files/CMake/bin/cmake.exe" -E rename CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi.tmp CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.ddi"
         [2/4] "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_ninja_dyndep --tdi=CMakeFiles\\cmTC_079fd.dir\\CXXDependInfo.json --lang=CXX --modmapfmt=clang --dd=CMakeFiles/cmTC_079fd.dir/CXX.dd @CMakeFiles/cmTC_079fd.dir/CXX.dd.rsp
-        [3/4] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DSUPPORTS_W_NO_EVERYTHING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wno-everything -MD -MT CMakeFiles/cmTC_079fd.dir/src.cxx.obj -MF CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.d @CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.modmap -o CMakeFiles/cmTC_079fd.dir/src.cxx.obj -c C:/Users/Benno111/Documents/GitHub/xdBot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr/src.cxx
+        [3/4] C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -DSUPPORTS_W_NO_EVERYTHING -D_MBCS  -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -Wno-everything -MD -MT CMakeFiles/cmTC_079fd.dir/src.cxx.obj -MF CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.d @CMakeFiles\\cmTC_079fd.dir\\src.cxx.obj.modmap -o CMakeFiles/cmTC_079fd.dir/src.cxx.obj -c C:/Users/Benno111/Documents/GitHub/geobot/build/CMakeFiles/CMakeScratch/TryCompile-1pyddr/src.cxx
         [4/4] cmd.exe /C "cd . && C:\\PROGRA~1\\LLVM\\bin\\CLANG_~1.EXE -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link CMakeFiles/cmTC_079fd.dir/src.cxx.obj -o cmTC_079fd.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_079fd.lib -Xlinker /pdb:cmTC_079fd.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
         
       exitCode: 0
@@ -4489,9 +4489,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/rc.com"
       - "C:/Windows/System32/rc.exe"
@@ -4583,15 +4583,15 @@ events:
       - "C:/Program Files/CMake/rc.com"
       - "C:/Program Files/CMake/rc.exe"
       - "C:/Program Files/CMake/rc"
-      - "C:/Program Files (x86)/xdBot2/bin/rc.com"
-      - "C:/Program Files (x86)/xdBot2/bin/rc.exe"
-      - "C:/Program Files (x86)/xdBot2/bin/rc"
-      - "C:/Program Files (x86)/xdBot2/sbin/rc.com"
-      - "C:/Program Files (x86)/xdBot2/sbin/rc.exe"
-      - "C:/Program Files (x86)/xdBot2/sbin/rc"
-      - "C:/Program Files (x86)/xdBot2/rc.com"
-      - "C:/Program Files (x86)/xdBot2/rc.exe"
-      - "C:/Program Files (x86)/xdBot2/rc"
+      - "C:/Program Files (x86)/geobot2/bin/rc.com"
+      - "C:/Program Files (x86)/geobot2/bin/rc.exe"
+      - "C:/Program Files (x86)/geobot2/bin/rc"
+      - "C:/Program Files (x86)/geobot2/sbin/rc.com"
+      - "C:/Program Files (x86)/geobot2/sbin/rc.exe"
+      - "C:/Program Files (x86)/geobot2/sbin/rc"
+      - "C:/Program Files (x86)/geobot2/rc.com"
+      - "C:/Program Files (x86)/geobot2/rc.exe"
+      - "C:/Program Files (x86)/geobot2/rc"
     found: false
     search_context:
       ENV{PATH}:
@@ -4616,12 +4616,12 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
   -
     kind: "find-v1"
     backtrace:
@@ -4673,9 +4673,9 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files (x86)/xdBot2/bin/"
-      - "C:/Program Files (x86)/xdBot2/sbin/"
-      - "C:/Program Files (x86)/xdBot2/"
+      - "C:/Program Files (x86)/geobot2/bin/"
+      - "C:/Program Files (x86)/geobot2/sbin/"
+      - "C:/Program Files (x86)/geobot2/"
     searched_directories:
       - "C:/Windows/System32/llvm-rc.com"
       - "C:/Windows/System32/llvm-rc.exe"
@@ -4729,10 +4729,10 @@ events:
         - "C:\\Users\\Benno111\\AppData\\Local\\GitHubDesktop\\bin"
         - "C:\\Users\\Benno111\\.dotnet\\tools"
         - "C:\\Users\\Benno111\\AppData\\Roaming\\npm"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/xdBot2"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/geobot2"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/xdBot2"
+        - "C:/Program Files (x86)/geobot2"
 ...

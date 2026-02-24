@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(tuliphook-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/geode-sdk/TulipHook.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "v3.1.7"
-                    SOURCE_DIR          "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/tuliphook-src"
-                    BINARY_DIR          "C:/Users/Benno111/Documents/GitHub/xdBot/build/_deps/tuliphook-build"
+                    SOURCE_DIR          "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/tuliphook-src"
+                    BINARY_DIR          "C:/Users/Benno111/Documents/GitHub/geobot/build/_deps/tuliphook-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""
