@@ -16,7 +16,9 @@ param(
     [switch]$UsePrecompiledGeodeBindings,
     [switch]$ForceConfigure,
     [switch]$QuietNinja,
-    [switch]$FastRebuild
+    [switch]$FastRebuild,
+    [switch]$BundleFFmpeg = $true,
+    [string]$FFmpegSource = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -59,6 +61,76 @@ function Set-HighPerformanceGpuPreference {
         # Windows per-app GPU preference: 2 = High performance GPU.
         New-ItemProperty -Path $regPath -Name $cmd.Source -PropertyType String -Value "GpuPreference=2;" -Force | Out-Null
     }
+}
+
+function Resolve-FFmpegSourcePath {
+    param(
+        [string]$ExplicitSource
+    )
+
+    if (-not $IsWindows) {
+        return $null
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($ExplicitSource)) {
+        if (Test-Path $ExplicitSource -PathType Leaf) {
+            $resolved = (Resolve-Path $ExplicitSource).Path
+            if ([System.IO.Path]::GetFileName($resolved).ToLowerInvariant() -eq "ffmpeg.exe") {
+                return $resolved
+            }
+        }
+        throw "FFmpeg source path must point to ffmpeg.exe: '$ExplicitSource'"
+    }
+
+    $existingBundled = Join-Path "resources" "ffmpeg.exe"
+    if (Test-Path $existingBundled -PathType Leaf) {
+        return (Resolve-Path $existingBundled).Path
+    }
+
+    $ffmpegCmd = Get-Command ffmpeg -ErrorAction SilentlyContinue
+    if ($ffmpegCmd -and -not [string]::IsNullOrWhiteSpace($ffmpegCmd.Source) -and (Test-Path $ffmpegCmd.Source -PathType Leaf)) {
+        if ([System.IO.Path]::GetFileName($ffmpegCmd.Source).ToLowerInvariant() -eq "ffmpeg.exe") {
+            return (Resolve-Path $ffmpegCmd.Source).Path
+        }
+    }
+
+    return $null
+}
+
+function Sync-BundledFFmpeg {
+    param(
+        [string]$ExplicitSource
+    )
+
+    if (-not $BundleFFmpeg -or -not $IsWindows) {
+        return
+    }
+
+    $targetPath = Join-Path "resources" "ffmpeg.exe"
+    $sourcePath = Resolve-FFmpegSourcePath -ExplicitSource $ExplicitSource
+    if (-not $sourcePath) {
+        Write-Host "FFmpeg bundling skipped (ffmpeg.exe not found)."
+        return
+    }
+
+    $targetDir = Split-Path -Parent $targetPath
+    if (-not (Test-Path $targetDir)) {
+        New-Item -ItemType Directory -Path $targetDir | Out-Null
+    }
+
+    if ((Test-Path $targetPath -PathType Leaf)) {
+        $src = Get-Item $sourcePath
+        $dst = Get-Item $targetPath
+        if ($src.Length -eq $dst.Length -and $src.LastWriteTimeUtc -eq $dst.LastWriteTimeUtc) {
+            Write-Host "Bundled ffmpeg.exe is up to date."
+            return
+        }
+    }
+
+    Copy-Item -Path $sourcePath -Destination $targetPath -Force
+    $srcAfter = Get-Item $sourcePath
+    (Get-Item $targetPath).LastWriteTimeUtc = $srcAfter.LastWriteTimeUtc
+    Write-Host "Bundled ffmpeg.exe -> $targetPath"
 }
 
 if ($Clean -and (Test-Path $BuildDir)) {
@@ -104,6 +176,8 @@ if ($EnableHighPerformanceGpu) {
     Set-HighPerformanceGpuPreference -ToolNames @("geode", "cmake", "ninja")
     Write-Host "Applied Windows high-performance GPU preference for build tools (tool support dependent)."
 }
+
+Sync-BundledFFmpeg -ExplicitSource $FFmpegSource
 
 $localBindingsRepo = Join-Path $BuildDir "_deps\bindings-src"
 if ((-not $env:GEODE_BINDINGS_REPO_PATH) -and (Test-Path $localBindingsRepo)) {

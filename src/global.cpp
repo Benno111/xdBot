@@ -339,6 +339,7 @@ $execute{
   
   if (!g.mod->setSavedValue("defaults_set_11", true))
     g.mod->setSavedValue("render_codec", std::string("libx264"));
+    g.mod->setSavedValue("render_hardware_accel", std::string("Off"));
   
   #endif
 
@@ -448,6 +449,23 @@ $execute{
   g.frameFixesLimit = g.mod->getSettingValue<int64_t>("frame_fixes_limit");
   g.lockDelta = g.mod->getSettingValue<bool>("lock_delta");
   g.stopPlaying = g.mod->getSettingValue<bool>("auto_stop_playing");
+
+  if (g.mod->getSavedValue<std::string>("render_hardware_accel").empty())
+    g.mod->setSavedValue("render_hardware_accel", std::string("Off"));
+
+#ifdef GEODE_IS_WINDOWS
+  auto ffmpegPath = g.mod->getSettingValue<std::filesystem::path>("ffmpeg_path");
+  bool hasValidFFmpeg = std::filesystem::exists(ffmpegPath) && ffmpegPath.filename().string() == "ffmpeg.exe";
+  if (!hasValidFFmpeg) {
+    std::filesystem::path bundledFFmpeg = g.mod->getResourcesDir() / "ffmpeg.exe";
+    std::filesystem::path gameDirFFmpeg = geode::dirs::getGameDir() / "ffmpeg.exe";
+
+    if (std::filesystem::exists(bundledFFmpeg) && bundledFFmpeg.filename().string() == "ffmpeg.exe")
+      g.mod->setSettingValue("ffmpeg_path", bundledFFmpeg);
+    else if (std::filesystem::exists(gameDirFFmpeg) && gameDirFFmpeg.filename().string() == "ffmpeg.exe")
+      g.mod->setSettingValue("ffmpeg_path", gameDirFFmpeg);
+  }
+#endif
 
   if (g.mod->getSettingValue<std::string>("macro_accuracy") == "Frame Fixes")
     g.frameFixes = true;
