@@ -1,5 +1,8 @@
 name: Build Geode Mod
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   push:
@@ -53,3 +56,14 @@ jobs:
         with:
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}
+
+      - name: Create draft release and upload package
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          draft: true
+          prerelease: true
+          files: |
+            ${{ steps.build.outputs.build-output }}
+            ${{ steps.build.outputs.build-output }}/*

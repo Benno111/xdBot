@@ -155,7 +155,6 @@ float Global::getTPS() {
 }
 
 int Global::getCurrentFrame(bool editor) {
-  (void)editor;
   PlayLayer* pl = PlayLayer::get();
   GJBaseGameLayer* bgl = pl ? static_cast<GJBaseGameLayer*>(pl) : GJBaseGameLayer::get();
   if (!bgl) return 0;
@@ -163,10 +162,18 @@ int Global::getCurrentFrame(bool editor) {
   auto& g = Global::get();
   int frame;
 
-  if (!g.macro.geobotMacro && g.state == state::playing && pl) {
+  if (!editor && pl) {
+    // In normal gameplay (non-editor), currentProgress tracks physics ticks
+    // more reliably than levelTime when playback/lock-delta is active.
     frame = pl->m_gameState.m_currentProgress;
-  }
-  else {
+
+    // Preserve geobot macro frame indexing compatibility.
+    if (g.macro.geobotMacro)
+      frame++;
+
+    if (frame <= 0)
+      frame = static_cast<int>(bgl->m_gameState.m_levelTime * getTPS()) + 1;
+  } else {
     frame = static_cast<int>(bgl->m_gameState.m_levelTime * getTPS());
     frame++;
   }

@@ -13,6 +13,7 @@
 
 #include <Geode/modify/PauseLayer.hpp>
 #include <Geode/modify/EditorPauseLayer.hpp>
+#include <Geode/binding/LevelEditorLayer.hpp>
 #include <Geode/utils/web.hpp>
 
 const std::vector<std::vector<RecordSetting>> settings {
@@ -66,10 +67,29 @@ const std::vector<std::vector<RecordSetting>> settings {
 };
 
 namespace {
+GJGameLevel* getCurrentLevelForMenus() {
+    if (PlayLayer* pl = PlayLayer::get())
+        return pl->m_level;
+
+    if (LevelEditorLayer* lel = LevelEditorLayer::get())
+        return lel->m_level;
+
+    return nullptr;
+}
+
 class GeobotPauseButtonHandler : public CCObject {
 public:
     void onPress(CCObject*) {
-        RecordLayer::openMenu();
+        // EditorPauseLayer can conflict with popup input routing; close it
+        // first, then open geobot on the next main-thread tick.
+        if (CCScene* scene = CCDirector::sharedDirector()->getRunningScene()) {
+            if (EditorPauseLayer* editorPause = scene->getChildByType<EditorPauseLayer>(0))
+                editorPause->onResume(nullptr);
+        }
+
+        Loader::get()->queueInMainThread([] {
+            RecordLayer::openMenu(true);
+        });
     }
 
     static GeobotPauseButtonHandler* get() {
@@ -99,8 +119,6 @@ CCNode* findNodeByIDRecursive(CCNode* root, const char* id) {
 }
 
 CCMenu* findSettingsMenu(CCLayer* layer) {
-    if (!Loader::get()->isModLoaded("geode.node-ids")) return nullptr;
-
     if (auto settingsBtn = findNodeByIDRecursive(layer, "settings-button")) {
         if (auto menu = typeinfo_cast<CCMenu*>(settingsBtn->getParent()))
             return menu;
@@ -112,6 +130,13 @@ CCMenu* findSettingsMenu(CCLayer* layer) {
         return typeinfo_cast<CCMenu*>(menu);
     if (CCNode* menu = layer->getChildByID("bottom-button-menu"))
         return typeinfo_cast<CCMenu*>(menu);
+
+    // Editor/Pause fallback when node IDs are unavailable.
+    if (CCMenu* menu = layer->getChildByType<CCMenu>(1))
+        return menu;
+    if (CCMenu* menu = layer->getChildByType<CCMenu>(0))
+        return menu;
+
     return nullptr;
 }
 
@@ -128,19 +153,26 @@ void addgeobotPauseButton(cocos2d::CCLayer* layer) {
         GeobotPauseButtonHandler::get(),
         menu_selector(GeobotPauseButtonHandler::onPress)
     );
+    btn->setID("geobot-button"_spr);
 
-    if (auto settingsMenu = findSettingsMenu(layer)) {
-        settingsMenu->addChild(btn);
-        settingsMenu->updateLayout();
-        return;
+    if (auto settingsBtn = findNodeByIDRecursive(layer, "settings-button")) {
+        if (auto settingsMenu = typeinfo_cast<CCMenu*>(settingsBtn->getParent())) {
+            btn->setPosition(settingsBtn->getPosition() + ccp(-42.f, 0.f));
+            settingsMenu->addChild(btn);
+            return;
+        }
     }
 
-    if (!Loader::get()->isModLoaded("geode.node-ids")) {
-        CCMenu* menu = CCMenu::create();
-        menu->setID("button"_spr);
-        layer->addChild(menu);
-        btn->setPosition({214, 88});
-        menu->addChild(btn);
+    if (auto settingsMenu = findSettingsMenu(layer)) {
+        if (CCArray* children = settingsMenu->getChildren()) {
+            if (children->count() > 0) {
+                if (CCNode* first = static_cast<CCNode*>(children->objectAtIndex(0)))
+                    btn->setPosition(first->getPosition() + ccp(-42.f, 0.f));
+            }
+        }
+
+        settingsMenu->addChild(btn);
+        settingsMenu->updateLayout();
         return;
     }
 
@@ -201,17 +233,17 @@ void RecordLayer::openLoadMacro(CCObject*) {
 }
 
 void RecordLayer::openStarRateOverride(CCObject*) {
-    StarRateOverrideLayer::create()->show();
+    if (auto* layer = StarRateOverrideLayer::create())
+        layer->show();
 }
 
 void RecordLayer::clear22Percentage(CCObject*) {
-    PlayLayer* pl = PlayLayer::get();
-    if (!pl || !pl->m_level) {
-        FLAlertLayer::create("Clear 2.2 Info", "Open a <cl>level</c> first.", "Ok")->show();
+    GJGameLevel* level = getCurrentLevelForMenus();
+    if (!level) {
+        FLAlertLayer::create("Clear 2.2 Info", "Open a <cl>level</c> or the <cl>editor</c> first.", "Ok")->show();
         return;
     }
 
-    GJGameLevel* level = pl->m_level;
     geode::createQuickPopup(
         "Clear 2.2 Info",
         "Clear this level's <cl>2.2 percentage info</c>?",
@@ -745,6 +777,8 @@ bool RecordLayer::setup() {
 
     settingsScroll = geode::ScrollLayer::create(cocos2d::CCSize { 246.f, 181.f });
     settingsScroll->setPosition({ -20.f, -85.f });
+    settingsScroll->setTouchEnabled(true);
+    settingsScroll->enableScrollWheel(true);
     menu->addChild(settingsScroll);
 
     settingsScrollbar = geode::Scrollbar::create(settingsScroll);
@@ -1274,6 +1308,8 @@ void RecordLayer::loadSettingsList() {
     float viewHeight = settingsScroll->getContentSize().height;
     float contentHeight = std::max(viewHeight, topPadding + bottomPadding + settingCount * rowSpacing);
 
+    settingsScroll->m_contentLayer->setAnchorPoint({ 0.f, 0.f });
+    settingsScroll->m_contentLayer->setPosition({ 0.f, 0.f });
     settingsScroll->m_contentLayer->setContentSize({ viewWidth, contentHeight });
 
     settingsMenu = CCMenu::create();
