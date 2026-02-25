@@ -1,3 +1,8 @@
+#DEVELOPMENT WARNIG!
+THIS MOD IS STILL UNDER ACTIVE DEVELOPMENT!
+
+
+
 # geobot
 
 <cl>geobot</c> is a simple botting tool designed to be easy for anyone to use; intended for <cg>showcases</c>.
@@ -34,7 +39,7 @@
 
 * Thanks to Viper for letting me use their Safe Mode implementation.
 
-* Thanks to Zilko for creating this awesome mod.
+* Thanks to Zilko for creating the backend.
 
 * Thanks to ReplayBot for being open source and letting me steal the code for the renderer.
 
