@@ -23,6 +23,15 @@ class $modify(CCScheduler) {
             return CCScheduler::update(dt);
         }
 
+        // Keep macro playback deterministic: speedhack should not alter
+        // simulation speed while a macro is being played.
+        if (g.state == state::playing) {
+            if (g.currentPitch != 1.f)
+                Global::updatePitch(1.f);
+
+            return CCScheduler::update(dt);
+        }
+
         if (g.renderer.recording || g.renderer.recordingAudio) {
             if (g.currentPitch != 1.f)
                 Global::updatePitch(1.f);

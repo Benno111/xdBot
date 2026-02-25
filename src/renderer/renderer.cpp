@@ -180,6 +180,8 @@ static std::string getHardwareCodecForMode(std::string const& mode) {
         return "h264_amf";
     if (mode == "Intel QSV")
         return "h264_qsv";
+    if (mode == "Android MediaCodec")
+        return "h264_mediacodec";
     return "";
 }
 

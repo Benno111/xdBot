@@ -7,6 +7,7 @@
 #include "autoclicker_settings_layer.hpp"
 #include "trajectory_settings_layer.hpp"
 #include "mirror_settings_layer.hpp"
+#include "star_rate_override_layer.hpp"
 #include "../hacks/coin_finder.hpp"
 #include "../hacks/show_trajectory.hpp"
 
@@ -65,6 +66,23 @@ const std::vector<std::vector<RecordSetting>> settings {
 };
 
 namespace {
+class GeobotPauseButtonHandler : public CCObject {
+public:
+    void onPress(CCObject*) {
+        RecordLayer::openMenu();
+    }
+
+    static GeobotPauseButtonHandler* get() {
+        static GeobotPauseButtonHandler* inst = []() {
+            auto* obj = new GeobotPauseButtonHandler();
+            obj->autorelease();
+            obj->retain();
+            return obj;
+        }();
+        return inst;
+    }
+};
+
 CCNode* findNodeByIDRecursive(CCNode* root, const char* id) {
     if (!root) return nullptr;
     if (root->getID() == id) return root;
@@ -105,7 +123,11 @@ void addgeobotPauseButton(cocos2d::CCLayer* layer) {
     CCSprite* sprite = CCSprite::createWithSpriteFrameName("GJ_playBtn2_001.png");
     sprite->setScale(0.35f);
 
-    CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create(sprite, layer, menu_selector(RecordLayer::openMenu2));
+    CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create(
+        sprite,
+        GeobotPauseButtonHandler::get(),
+        menu_selector(GeobotPauseButtonHandler::onPress)
+    );
 
     if (auto settingsMenu = findSettingsMenu(layer)) {
         settingsMenu->addChild(btn);
@@ -176,6 +198,44 @@ void RecordLayer::openSaveMacro(CCObject*) {
 
 void RecordLayer::openLoadMacro(CCObject*) {
     LoadMacroLayer::open(static_cast<geode::Popup*>(this), nullptr);
+}
+
+void RecordLayer::openStarRateOverride(CCObject*) {
+    StarRateOverrideLayer::create()->show();
+}
+
+void RecordLayer::clear22Percentage(CCObject*) {
+    PlayLayer* pl = PlayLayer::get();
+    if (!pl || !pl->m_level) {
+        FLAlertLayer::create("Clear 2.2 Info", "Open a <cl>level</c> first.", "Ok")->show();
+        return;
+    }
+
+    GJGameLevel* level = pl->m_level;
+    geode::createQuickPopup(
+        "Clear 2.2 Info",
+        "Clear this level's <cl>2.2 percentage info</c>?",
+        "Cancel", "Yes",
+        [level](auto, bool btn2) {
+            if (!btn2 || !level) return;
+
+            level->setNewNormalPercent2(0);
+            level->m_orbCompletion = 0;
+            level->m_attemptTime = 0;
+            level->m_bestTime = 0;
+            level->m_ticksTime = 0;
+            level->m_clicksTime = 0;
+            level->m_coinsTime = 0;
+            level->m_savedTime = false;
+
+            if (GameLevelManager* glm = GameLevelManager::sharedState()) {
+                glm->updateLevel(level);
+                glm->saveLevel(level);
+            }
+
+            Notification::create("2.2 percentage + time info cleared", NotificationIcon::Success)->show();
+        }
+    );
 }
 
 RecordLayer* RecordLayer::openMenu(bool instant) {
@@ -412,15 +472,6 @@ void RecordLayer::textChanged(CCTextInputNode* node) {
         mod->setSavedValue("macro_speedhack", std::string(speedhackInput->getString()));
 }
 
-void RecordLayer::updatePage(CCObject* obj) {
-    auto& g = Global::get();
-    g.currentPage += static_cast<CCNode*>(obj)->getID() == "page-left" ? -1 : 1;
-    if (g.currentPage == -1) g.currentPage = settings.size() - 1;
-    else if (g.currentPage == settings.size()) g.currentPage = 0;
-
-    goToSettingsPage(g.currentPage);
-}
-
 void RecordLayer::toggleSetting(CCObject* obj) {
     CCMenuItemToggler* toggle = static_cast<CCMenuItemToggler*>(obj);
     std::string id = toggle->getID();
@@ -572,26 +623,6 @@ void RecordLayer::showCodecPopup(CCObject*) {
     FLAlertLayer::create("Codec", "<cr>AMD:</c> h264_amf\n<cg>NVIDIA:</c> h264_nvenc\n<cl>INTEL:</c> h264_qsv\nI don't know: libx264", "Ok")->show();
 }
 
-void RecordLayer::updateDots() {
-    int pageCount = static_cast<int>(settings.size());
-    if (pageCount <= 0) return;
-
-    int page = Global::get().currentPage;
-    if (page < 0) page = 0;
-    if (page >= pageCount) page = pageCount - 1;
-
-    if (pageSlider) {
-        updatingPageSlider = true;
-        float value = pageCount > 1 ? static_cast<float>(page) / static_cast<float>(pageCount - 1) : 0.f;
-        pageSlider->setValue(value);
-        updatingPageSlider = false;
-    }
-
-    if (pageLabel) {
-        pageLabel->setString(fmt::format("Page {}/{}", page + 1, pageCount).c_str());
-    }
-}
-
 bool RecordLayer::setup() {
     auto& g = Global::get();
     mod = g.mod;
@@ -712,21 +743,13 @@ bool RecordLayer::setup() {
     lbl->setScale(0.7f);
     menu->addChild(lbl);
 
-    pageLabel = CCLabelBMFont::create("", "chatFont.fnt");
-    pageLabel->setPosition(ccp(103, 98.5f));
-    pageLabel->setScale(0.45f);
-    pageLabel->setOpacity(170);
-    menu->addChild(pageLabel);
+    settingsScroll = geode::ScrollLayer::create(cocos2d::CCSize { 246.f, 181.f });
+    settingsScroll->setPosition({ -20.f, -85.f });
+    menu->addChild(settingsScroll);
 
-    pageSlider = Slider::create(
-        this,
-        menu_selector(RecordLayer::onPageSlider),
-        1.55f
-    );
-    pageSlider->setPosition({ 20.f, 86.f });
-    pageSlider->setAnchorPoint({ 0.f, 0.f });
-    pageSlider->setScale(0.42f);
-    menu->addChild(pageSlider);
+    settingsScrollbar = geode::Scrollbar::create(settingsScroll);
+    settingsScrollbar->setPosition({ 230.f, 5.f });
+    menu->addChild(settingsScrollbar);
 
     lbl = CCLabelBMFont::create("Record", "bigFont.fnt");
     lbl->setPosition(ccp(-161.5, 60));
@@ -814,6 +837,16 @@ bool RecordLayer::setup() {
         menu_selector(RecordLayer::onEditMacro));
 
     btn->setPosition(ccp(-56, 34));
+    menu->addChild(btn);
+
+    btnSprite = ButtonSprite::create("Rate");
+    btnSprite->setScale(0.54f);
+    btn = CCMenuItemSpriteExtra::create(
+        btnSprite,
+        this,
+        menu_selector(RecordLayer::openStarRateOverride)
+    );
+    btn->setPosition(ccp(3, 34));
     menu->addChild(btn);
 
     widthInput = CCTextInputNode::create(150, 30, "Width", "chatFont.fnt");
@@ -984,18 +1017,17 @@ bool RecordLayer::setup() {
     btn->setPosition(ccp(-36, 107));
     menu->addChild(btn);
 
-    for (int i = 0; i < 7; i++) {
-        CCLabelBMFont* lbl = CCLabelBMFont::create("_______________________", "chatFont.fnt");
-        lbl->setPosition(ccp(103, 97 - (i * 29)));
-        lbl->setColor(ccc3(0, 0, 0));
-        lbl->setOpacity(80);
-        menu->addChild(lbl);
-    }
+    spr = CCSprite::createWithSpriteFrameName("GJ_trashBtn_001.png");
+    spr->setScale(0.5f);
+    btn = CCMenuItemSpriteExtra::create(
+        spr,
+        this,
+        menu_selector(RecordLayer::clear22Percentage)
+    );
+    btn->setPosition(ccp(-20, 107));
+    menu->addChild(btn);
 
-    if (!mod->getSettingValue<bool>("restore_page"))
-        g.currentPage = 0;
-
-    goToSettingsPage(g.currentPage);
+    loadSettingsList();
 
     CCSprite* dickordSpr = CCSprite::createWithSpriteFrameName("gj_discordIcon_001.png");
     dickordSpr->setScale(0.9f);
@@ -1017,7 +1049,7 @@ void RecordLayer::setToggleMember(CCMenuItemToggler* toggle, std::string id) {
     if (id == "macro_tps_enabled") tpsToggle = toggle;
 }
 
-void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
+void RecordLayer::loadSetting(RecordSetting sett, float yPos, CCMenu* targetMenu) {
     CCLabelBMFont* lbl = CCLabelBMFont::create(sett.name.c_str(), "bigFont.fnt");
     lbl->setPosition(ccp(19.f, yPos));
     lbl->setAnchorPoint({ 0, 0.5 });
@@ -1025,7 +1057,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
     lbl->setScale(sett.labelScale);
 
     nodes.push_back(static_cast<CCNode*>(lbl));
-    menu->addChild(lbl);
+    targetMenu->addChild(lbl);
 
     CCSprite* spriteOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
     CCSprite* spriteOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
@@ -1042,7 +1074,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
     toggle->setID(sett.id.c_str());
 
     nodes.push_back(static_cast<CCNode*>(toggle));
-    menu->addChild(toggle);
+    targetMenu->addChild(toggle);
 
     setToggleMember(toggle, sett.id);
 
@@ -1061,7 +1093,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         btn->setPosition(ccp(138, yPos));
 
         nodes.push_back(static_cast<CCNode*>(btn));
-        menu->addChild(btn);
+        targetMenu->addChild(btn);
     }
 
     if (sett.input == InputType::Autosave) {
@@ -1081,7 +1113,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         btn->setPosition(ccp(147, yPos));
 
         nodes.push_back(static_cast<CCNode*>(btn));
-        menu->addChild(btn);
+        targetMenu->addChild(btn);
     }
 
     if (sett.input == InputType::Speedhack) {
@@ -1094,7 +1126,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         bg->setContentSize({ 100, 55 });
         bg->setZOrder(29);
         nodes.push_back(static_cast<CCNode*>(bg));
-        menu->addChild(bg);
+        targetMenu->addChild(bg);
 
         speedhackInput = CCTextInputNode::create(150, 30, "SH", "chatFont.fnt");
         speedhackInput->setPosition(ccp(127.5, yPos));
@@ -1111,7 +1143,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         speedhackInput->setMaxLabelLength(6);
 
         nodes.push_back(static_cast<CCNode*>(speedhackInput));
-        menu->addChild(speedhackInput);
+        targetMenu->addChild(speedhackInput);
     }
 
     if (sett.input == InputType::Tps) {
@@ -1124,7 +1156,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         tpsBg->setContentSize({ 100, 55 });
         tpsBg->setZOrder(29);
         nodes.push_back(static_cast<CCNode*>(tpsBg));
-        menu->addChild(tpsBg);
+        targetMenu->addChild(tpsBg);
 
         tpsInput = CCTextInputNode::create(150, 30, "tps", "chatFont.fnt");
         tpsInput->setPosition(ccp(133.5, yPos));
@@ -1141,7 +1173,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         tpsInput->setMaxLabelLength(9);
 
         nodes.push_back(static_cast<CCNode*>(tpsInput));
-        menu->addChild(tpsInput);
+        targetMenu->addChild(tpsInput);
     }
 
     if (sett.input == InputType::Seed) {
@@ -1154,7 +1186,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         bg->setContentSize({ 258, 55 });
         bg->setZOrder(29);
         nodes.push_back(static_cast<CCNode*>(bg));
-        menu->addChild(bg);
+        targetMenu->addChild(bg);
 
         seedInput = CCTextInputNode::create(150, 30, "Seed", "chatFont.fnt");
         seedInput->setPosition(ccp(109.5, yPos));
@@ -1171,7 +1203,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         seedInput->setMaxLabelLength(20);
 
         nodes.push_back(static_cast<CCNode*>(seedInput));
-        menu->addChild(seedInput);
+        targetMenu->addChild(seedInput);
     }
 
     if (sett.input == InputType::Respawn) {
@@ -1184,7 +1216,7 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         bg->setContentSize({ 100, 55 });
         bg->setZOrder(29);
         nodes.push_back(static_cast<CCNode*>(bg));
-        menu->addChild(bg);
+        targetMenu->addChild(bg);
 
         respawnInput = CCTextInputNode::create(150, 30, "sec", "chatFont.fnt");
         respawnInput->setPosition(ccp(127.5, yPos));
@@ -1201,15 +1233,12 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos) {
         respawnInput->setMaxLabelLength(4);
 
         nodes.push_back(static_cast<CCNode*>(respawnInput));
-        menu->addChild(respawnInput);
+        targetMenu->addChild(respawnInput);
     }
 }
 
-void RecordLayer::goToSettingsPage(int page) {
+void RecordLayer::loadSettingsList() {
     checkSpeedhack();
-
-    for (size_t i = 0; i < nodes.size(); i++)
-        nodes[i]->removeFromParentAndCleanup(false);
 
     nodes.clear();
 
@@ -1226,30 +1255,42 @@ void RecordLayer::goToSettingsPage(int page) {
 
     tpsBg = nullptr;
 
-    for (size_t i = 0; i < 6; i++)
-        loadSetting(settings[page][i], ySettingPositions[i]);
+    if (!settingsScroll) return;
 
-    updateDots();
-    updateTPS();
-
-    Mod::get()->setSavedValue("current_page", page);
-}
-
-void RecordLayer::onPageSlider(CCObject*) {
-    if (updatingPageSlider || !pageSlider || settings.empty()) return;
-
-    int maxPage = static_cast<int>(settings.size()) - 1;
-    int newPage = static_cast<int>(std::round(pageSlider->getValue() * static_cast<float>(maxPage)));
-    if (newPage < 0) newPage = 0;
-    if (newPage > maxPage) newPage = maxPage;
-
-    if (newPage == Global::get().currentPage) {
-        updateDots();
-        return;
+    if (settingsMenu) {
+        settingsMenu->removeFromParentAndCleanup(true);
+        settingsMenu = nullptr;
     }
 
-    Global::get().currentPage = newPage;
-    goToSettingsPage(newPage);
+    constexpr float rowSpacing = 29.f;
+    constexpr float topPadding = 16.f;
+    constexpr float bottomPadding = 12.f;
+
+    size_t settingCount = 0;
+    for (const auto& page : settings)
+        settingCount += page.size();
+
+    float viewWidth = settingsScroll->getContentSize().width;
+    float viewHeight = settingsScroll->getContentSize().height;
+    float contentHeight = std::max(viewHeight, topPadding + bottomPadding + settingCount * rowSpacing);
+
+    settingsScroll->m_contentLayer->setContentSize({ viewWidth, contentHeight });
+
+    settingsMenu = CCMenu::create();
+    settingsMenu->setPosition({ 0.f, 0.f });
+    settingsScroll->m_contentLayer->addChild(settingsMenu);
+
+    size_t i = 0;
+    for (const auto& page : settings) {
+        for (const auto& setting : page) {
+            float yPos = contentHeight - topPadding - (static_cast<float>(i) * rowSpacing);
+            loadSetting(setting, yPos, settingsMenu);
+            i++;
+        }
+    }
+
+    settingsScroll->scrollToTop();
+    updateTPS();
 }
 
 void RecordLayer::onDiscord(CCObject*) {

@@ -2,6 +2,7 @@
 #include "record_layer.hpp"
 
 #include <Geode/modify/SliderTouchLogic.hpp>
+#include <algorithm>
 
 class $modify(SliderTouchLogic) {
     bool ccTouchBegan(cocos2d::CCTouch* v1, cocos2d::CCEvent* v2) {
@@ -10,12 +11,26 @@ class $modify(SliderTouchLogic) {
     }
 };
 
-static const std::vector<std::string> kHardwareAccelModes = {
-    "Off",
-    "NVIDIA NVENC",
-    "AMD AMF",
-    "Intel QSV"
-};
+static std::vector<std::string> getHardwareAccelModes() {
+#ifdef GEODE_IS_ANDROID
+    return {
+        "Off",
+        "Android MediaCodec"
+    };
+#else
+    return {
+        "Off",
+        "NVIDIA NVENC",
+        "AMD AMF",
+        "Intel QSV"
+    };
+#endif
+}
+
+static bool isSupportedHardwareAccelMode(std::string const& mode) {
+    auto modes = getHardwareAccelModes();
+    return std::find(modes.begin(), modes.end(), mode) != modes.end();
+}
 
 void RenderSettingsLayer::textChanged(CCTextInputNode* node) {
 
@@ -102,6 +117,8 @@ bool RenderSettingsLayer::setup() {
     mod = Mod::get();
 
     if (mod->getSavedValue<std::string>("render_hardware_accel").empty())
+        mod->setSavedValue("render_hardware_accel", std::string("Off"));
+    else if (!isSupportedHardwareAccelMode(mod->getSavedValue<std::string>("render_hardware_accel")))
         mod->setSavedValue("render_hardware_accel", std::string("Off"));
     
     Utils::setBackgroundColor(m_bgSprite);
@@ -559,10 +576,16 @@ void RenderSettingsLayer::showInfoPopup(CCObject* obj) {
 };
 
 void RenderSettingsLayer::onSwitchHardwareAccel(CCObject* obj) {
+    auto modes = getHardwareAccelModes();
+    if (modes.empty()) return;
+
     std::string current = Mod::get()->getSavedValue<std::string>("render_hardware_accel");
+    if (!isSupportedHardwareAccelMode(current))
+        current = "Off";
+
     size_t index = 0;
-    for (size_t i = 0; i < kHardwareAccelModes.size(); i++) {
-        if (kHardwareAccelModes[i] == current) {
+    for (size_t i = 0; i < modes.size(); i++) {
+        if (modes[i] == current) {
             index = i;
             break;
         }
@@ -570,11 +593,11 @@ void RenderSettingsLayer::onSwitchHardwareAccel(CCObject* obj) {
 
     bool left = static_cast<CCNode*>(obj)->getID() == "left";
     if (left)
-        index = (index + kHardwareAccelModes.size() - 1) % kHardwareAccelModes.size();
+        index = (index + modes.size() - 1) % modes.size();
     else
-        index = (index + 1) % kHardwareAccelModes.size();
+        index = (index + 1) % modes.size();
 
-    Mod::get()->setSavedValue("render_hardware_accel", kHardwareAccelModes[index]);
+    Mod::get()->setSavedValue("render_hardware_accel", modes[index]);
     updateHardwareAccelLabel();
 }
 
@@ -582,7 +605,7 @@ void RenderSettingsLayer::updateHardwareAccelLabel() {
     if (!hardwareAccelLabel) return;
 
     std::string current = Mod::get()->getSavedValue<std::string>("render_hardware_accel");
-    if (current.empty())
+    if (current.empty() || !isSupportedHardwareAccelMode(current))
         current = "Off";
     hardwareAccelLabel->setString(current.c_str());
 }

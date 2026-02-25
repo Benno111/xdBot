@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Geode/ui/GeodeUI.hpp>
+#include <Geode/ui/ScrollLayer.hpp>
+#include <Geode/ui/Scrollbar.hpp>
 #include "../includes.hpp"
 
 #include "load_macro_layer.hpp"
@@ -25,10 +27,6 @@ struct RecordSetting {
 	float labelScale = 0.325f;
 	cocos2d::SEL_MenuHandler callback = nullptr;
 	bool disabled = false;
-};
-
-const float ySettingPositions[6]{
-	76.5f, 47.5f, 18.5f, -11.5f, -40.5f, -69.5f
 };
 
 class RecordLayer : public xdb::Popup<>, public TextInputDelegate {
@@ -61,18 +59,17 @@ public:
 	CCTextInputNode* speedhackInput = nullptr;
 	CCTextInputNode* respawnInput = nullptr;
 	CCTextInputNode* tpsInput = nullptr;
-	Slider* pageSlider = nullptr;
-	CCLabelBMFont* pageLabel = nullptr;
+	geode::ScrollLayer* settingsScroll = nullptr;
+	geode::Scrollbar* settingsScrollbar = nullptr;
+	CCMenu* settingsMenu = nullptr;
 
 	std::vector<CCNode*> nodes;
-	std::vector<CCSprite*> dots;
 
 	CCMenu* menu = nullptr;
 
 	Mod* mod = nullptr;
 
 	bool cursorWasHidden = false;
-	bool updatingPageSlider = false;
 
 protected:
 
@@ -105,11 +102,11 @@ public:
 		geode::openSettingsPopup(mod, false);
 	}
 
-	void updateDots();
-
 	void openLoadMacro(CCObject*);
+	void openStarRateOverride(CCObject*);
 
 	void openSaveMacro(CCObject*);
+	void clear22Percentage(CCObject*);
 
 	void showCodecPopup(CCObject*);
 
@@ -123,18 +120,15 @@ public:
 
 	void onAutosaves(CCObject*);
 
-	void goToSettingsPage(int page);
+	void loadSettingsList();
 
-	void loadSetting(RecordSetting sett, float yPos);
+	void loadSetting(RecordSetting sett, float yPos, CCMenu* targetMenu);
 
 	void setToggleMember(CCMenuItemToggler* toggle, std::string id);
 
 	void onEditMacro(CCObject*);
 
 	void macroInfo(CCObject*);
-
-	void updatePage(CCObject* obj);
-	void onPageSlider(CCObject*);
 
 	void toggleSetting(CCObject* obj);
 
