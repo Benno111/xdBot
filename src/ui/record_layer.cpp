@@ -11,6 +11,7 @@
 #include "../hacks/show_trajectory.hpp"
 
 #include <Geode/modify/PauseLayer.hpp>
+#include <Geode/modify/EditorPauseLayer.hpp>
 #include <Geode/utils/web.hpp>
 
 const std::vector<std::vector<RecordSetting>> settings {
@@ -63,38 +64,87 @@ const std::vector<std::vector<RecordSetting>> settings {
     }
 };
 
+namespace {
+CCNode* findNodeByIDRecursive(CCNode* root, const char* id) {
+    if (!root) return nullptr;
+    if (root->getID() == id) return root;
+
+    CCArray* children = root->getChildren();
+    if (!children) return nullptr;
+
+    for (auto node : CCArrayExt<CCNode*>(children)) {
+        if (auto found = findNodeByIDRecursive(node, id))
+            return found;
+    }
+    return nullptr;
+}
+
+CCMenu* findSettingsMenu(CCLayer* layer) {
+    if (!Loader::get()->isModLoaded("geode.node-ids")) return nullptr;
+
+    if (auto settingsBtn = findNodeByIDRecursive(layer, "settings-button")) {
+        if (auto menu = typeinfo_cast<CCMenu*>(settingsBtn->getParent()))
+            return menu;
+    }
+
+    if (CCNode* menu = layer->getChildByID("right-button-menu"))
+        return typeinfo_cast<CCMenu*>(menu);
+    if (CCNode* menu = layer->getChildByID("left-button-menu"))
+        return typeinfo_cast<CCMenu*>(menu);
+    if (CCNode* menu = layer->getChildByID("bottom-button-menu"))
+        return typeinfo_cast<CCMenu*>(menu);
+    return nullptr;
+}
+
+void addgeobotPauseButton(cocos2d::CCLayer* layer) {
+#ifdef GEODE_IS_WINDOWS
+    if (!Mod::get()->getSavedValue<bool>("menu_show_button")) return;
+#endif
+
+    CCSprite* sprite = CCSprite::createWithSpriteFrameName("GJ_playBtn2_001.png");
+    sprite->setScale(0.35f);
+
+    CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create(
+        sprite,
+        layer,
+        menu_selector(RecordLayer::openMenu2)
+    );
+    btn->setID("geobot-button"_spr);
+
+    if (auto settingsMenu = findSettingsMenu(layer)) {
+        settingsMenu->addChild(btn);
+        settingsMenu->updateLayout();
+        return;
+    }
+
+    if (!Loader::get()->isModLoaded("geode.node-ids")) {
+        CCMenu* menu = CCMenu::create();
+        menu->setID("button"_spr);
+        layer->addChild(menu);
+        btn->setPosition({214, 88});
+        menu->addChild(btn);
+        return;
+    }
+
+    CCMenu* fallbackMenu = CCMenu::create();
+    fallbackMenu->setID("button"_spr);
+    layer->addChild(fallbackMenu);
+    btn->setPosition({214, 88});
+    fallbackMenu->addChild(btn);
+}
+}
+
 class $modify(PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
+        addgeobotPauseButton(this);
+    }
+};
 
-        #ifdef GEODE_IS_WINDOWS
-
-        if (!Mod::get()->getSavedValue<bool>("menu_show_button")) return;
-
-        #endif
-
-        CCSprite* sprite = nullptr;
-
-        sprite = CCSprite::createWithSpriteFrameName("GJ_playBtn2_001.png");
-        sprite->setScale(0.35f);
-
-
-        CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create(sprite,
-            this,
-            menu_selector(RecordLayer::openMenu2));
-        
-        if (!Loader::get()->isModLoaded("geode.node-ids")) {
-            CCMenu* menu = CCMenu::create();
-            menu->setID("button"_spr);
-            addChild(menu);
-            btn->setPosition({214, 88});
-            menu->addChild(btn);
-            return;
-        }
-
-        CCNode* menu = this->getChildByID("right-button-menu");
-        menu->addChild(btn);
-        menu->updateLayout();
+class $modify(EditorPauseLayer) {
+    void customSetup() {
+        EditorPauseLayer::customSetup();
+        addgeobotPauseButton(this);
     }
 };
 
