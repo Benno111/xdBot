@@ -144,6 +144,7 @@ class $modify(PlayLayer) {
     if (g.layoutMode)
       g.safeMode = true;
 
+    g.leftOver = 0.f;
     g.currentAction = 0;
     g.currentFrameFix = 0;
     g.restart = false;
