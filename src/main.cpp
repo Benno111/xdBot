@@ -215,6 +215,15 @@ class $modify(BGLHook, GJBaseGameLayer) {
 
     PlayLayer* pl = PlayLayer::get();
 
+    // During editor playtesting, both PlayLayer and LevelEditorLayer (which
+    // also derives from GJBaseGameLayer) may both call processCommands within
+    // the same physics tick.  Only process macro logic for the active PlayLayer;
+    // for all other GJBaseGameLayer instances (e.g. LevelEditorLayer) just
+    // forward to the native implementation so we don't corrupt g.previousFrame
+    // or g.firstAttempt before the PlayLayer has had a chance to run.
+    if (pl && pl != typeinfo_cast<PlayLayer*>(this))
+      return GJBaseGameLayer::processCommands(dt, isHalfTick, isLastTick);
+
     Global::updateSeed();
 
     bool rendering = g.renderer.recording || g.renderer.recordingAudio;
