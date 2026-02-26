@@ -105,10 +105,6 @@ class $modify(PlayLayer) {
 
     if (!PlayLayer::init(level, b1, b2)) return false;
 
-    m_fields->pendingFramePerfects.clear();
-    m_fields->aliveLastFrame[0] = m_player1 && !m_player1->m_isDead;
-    m_fields->aliveLastFrame[1] = m_player2 && !m_player2->m_isDead;
-
     if (g.state == state::playing) {
       // Starting a fresh level run or editor playtest should not inherit
       // playback state from any previous run/session.
@@ -139,7 +135,6 @@ class $modify(PlayLayer) {
     g.framePerfectOverlayFrames = 0;
     g.framePerfectCount = 0;
     g.lastFramePerfectAction = std::numeric_limits<size_t>::max();
-    m_fields->pendingFramePerfects.clear();
 
     int frame = Global::getCurrentFrame();
 
