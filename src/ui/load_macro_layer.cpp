@@ -122,7 +122,7 @@ void LoadMacroLayer::onSelectAll(CCObject* obj) {
 
 LoadMacroLayer* LoadMacroLayer::create(geode::Popup* layer, geode::Popup* layer2, bool autosaves) {
 	LoadMacroLayer* ret = new LoadMacroLayer();
-	if (ret->initAnchored(385, 291, layer, layer2, autosaves, Utils::getTexture().c_str())) {
+	if (ret->initAnchored(385, 291, layer, layer2, autosaves)) {
 		ret->autorelease();
 		return ret;
 	}

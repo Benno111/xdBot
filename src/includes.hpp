@@ -11,6 +11,7 @@
 #include <vector>
 #include <utility>
 #include <filesystem>
+#include <limits>
 
 #include "renderer/renderer.hpp"
 #include "macro.hpp"
@@ -57,7 +58,7 @@ const std::string buttonIDs[6] = {
 #define STATIC_CREATE(class, width, height) \
     static class* create() { \
         class* ret = new class(); \
-        if (ret->initAnchored(width, height, Utils::getTexture().c_str())) { \
+        if (ret->initAnchored(width, height)) { \
             ret->autorelease(); \
             return ret; \
         } \
@@ -103,6 +104,7 @@ public:
     static PauseLayer* getPauseLayer();
     static std::filesystem::path getFolderSettingPath(std::string const& settingID, bool createIfMissing = true);
     static void triggerFramePerfectOverlay(int button, bool down);
+    static void triggerFramePerfectOverlayCounted(size_t actionIndex, int button, bool down, std::string const& typeName);
 
     Mod* mod = Mod::get();
     geode::Popup* layer = nullptr;
@@ -195,4 +197,6 @@ public:
     float leftOver = 0.f;
     int framePerfectOverlayFrames = 0;
     std::string framePerfectOverlayText = "";
+    int framePerfectCount = 0;
+    size_t lastFramePerfectAction = std::numeric_limits<size_t>::max();
 };

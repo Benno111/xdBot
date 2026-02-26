@@ -100,8 +100,14 @@ class $modify(PlayLayer) {
     g.firstAttempt = true;  
     g.macroUsedInAttempt = false;
     g.framePerfectOverlayFrames = 0;
+    g.framePerfectCount = 0;
+    g.lastFramePerfectAction = std::numeric_limits<size_t>::max();
 
     if (!PlayLayer::init(level, b1, b2)) return false;
+
+    m_fields->pendingFramePerfects.clear();
+    m_fields->aliveLastFrame[0] = m_player1 && !m_player1->m_isDead;
+    m_fields->aliveLastFrame[1] = m_player2 && !m_player2->m_isDead;
 
     if (g.state == state::playing) {
       // Starting a fresh level run or editor playtest should not inherit
@@ -131,6 +137,9 @@ class $modify(PlayLayer) {
     auto& g = Global::get();
     g.macroUsedInAttempt = false;
     g.framePerfectOverlayFrames = 0;
+    g.framePerfectCount = 0;
+    g.lastFramePerfectAction = std::numeric_limits<size_t>::max();
+    m_fields->pendingFramePerfects.clear();
 
     int frame = Global::getCurrentFrame();
 
@@ -198,6 +207,17 @@ class $modify(BGLHook, GJBaseGameLayer) {
 
   struct Fields {
     bool macroInput = false;
+    struct PendingFramePerfect {
+      size_t actionIndex = 0;
+      int resolveFrame = 0;
+      int button = 0;
+      bool down = false;
+      bool player2 = false;
+      bool surviveLast = true;
+      std::string typeName = "";
+    };
+    std::vector<PendingFramePerfect> pendingFramePerfects;
+    bool aliveLastFrame[2] = { true, true };
   };
 
   void processCommands(float dt, bool isHalfTick, bool isLastTick) {
@@ -331,29 +351,65 @@ class $modify(BGLHook, GJBaseGameLayer) {
       return;
     }
 
+    if (!m_fields->pendingFramePerfects.empty()) {
+      for (size_t i = 0; i < m_fields->pendingFramePerfects.size();) {
+        auto const& pending = m_fields->pendingFramePerfects[i];
+        if (frame < pending.resolveFrame) {
+          i++;
+          continue;
+        }
+
+        PlayerObject* player = pending.player2 ? m_player2 : m_player1;
+        bool surviveNext = player && !player->m_isDead;
+        // Frame-perfect proxy:
+        // if both adjacent frames are survivable, this input is not tight.
+        if (!(pending.surviveLast && surviveNext)) {
+          Global::triggerFramePerfectOverlayCounted(
+            pending.actionIndex,
+            pending.button,
+            pending.down,
+            pending.typeName
+          );
+        }
+
+        m_fields->pendingFramePerfects.erase(m_fields->pendingFramePerfects.begin() + i);
+      }
+    }
+
     m_fields->macroInput = true;
 
     while (g.currentAction < g.macro.inputs.size() && frame >= g.macro.inputs[g.currentAction].frame) {
+      size_t actionIndex = g.currentAction;
       auto input = g.macro.inputs[g.currentAction];
-      bool framePerfectTransition = false;
-
-      if (g.currentAction > 0) {
-        auto const& prev = g.macro.inputs[g.currentAction - 1];
-        framePerfectTransition =
-          input.player2 == prev.player2 &&
-          input.button == prev.button &&
-          input.down != prev.down &&
-          input.frame - prev.frame == 1;
-      }
 
       if (frame != g.respawnFrame) {
         if (Macro::flipControls())
           input.player2 = !input.player2;
 
-        GJBaseGameLayer::handleButton(input.down, input.button, input.player2);
+        PlayerObject* inputPlayer = input.player2 ? m_player2 : m_player1;
+        bool isWaveClick = input.button == 1 && input.down && inputPlayer && inputPlayer->m_isDart;
+        bool isWaveRelease = input.button == 1 && !input.down && inputPlayer && inputPlayer->m_isDart;
+        bool isJumpPress = input.button == 1 && input.down && !(inputPlayer && inputPlayer->m_isDart);
+        bool isRobotRelease = input.button == 1 && !input.down && inputPlayer && inputPlayer->m_isRobot;
+        if (isJumpPress || isRobotRelease || isWaveClick || isWaveRelease) {
+          std::string typeName = "Jump";
+          if (isWaveClick) typeName = "Wave Click";
+          else if (isWaveRelease) typeName = "Wave Release";
+          else if (isRobotRelease) typeName = "Robot Release";
 
-        if (framePerfectTransition)
-          Global::triggerFramePerfectOverlay(input.button, input.down);
+          auto const& aliveLast = m_fields->aliveLastFrame[input.player2 ? 1 : 0];
+          m_fields->pendingFramePerfects.push_back({
+            actionIndex,
+            frame + 1,
+            input.button,
+            input.down,
+            input.player2,
+            aliveLast,
+            typeName
+          });
+        }
+
+        GJBaseGameLayer::handleButton(input.down, input.button, input.player2);
       }
 
       g.currentAction++;
@@ -399,6 +455,9 @@ class $modify(BGLHook, GJBaseGameLayer) {
 
       g.currentFrameFix++;
     }
+
+    m_fields->aliveLastFrame[0] = m_player1 && !m_player1->m_isDead;
+    m_fields->aliveLastFrame[1] = m_player2 && !m_player2->m_isDead;
 
   }
 

@@ -462,6 +462,35 @@ void Global::triggerFramePerfectOverlay(int button, bool down) {
   g.framePerfectOverlayFrames = 30;
 }
 
+void Global::triggerFramePerfectOverlayCounted(size_t actionIndex, int button, bool down, std::string const& typeName) {
+  auto& g = Global::get();
+  if (g.lastFramePerfectAction == actionIndex)
+    return;
+
+  g.lastFramePerfectAction = actionIndex;
+  g.framePerfectCount++;
+
+  const char* buttonName = "Click";
+  if (button == 2) buttonName = "Left";
+  else if (button == 3) buttonName = "Right";
+
+  double tps = std::max(1.0, static_cast<double>(Global::getTPS()));
+  int count60 = static_cast<int>(std::lround(static_cast<double>(g.framePerfectCount) * 60.0 / tps));
+  int count144 = static_cast<int>(std::lround(static_cast<double>(g.framePerfectCount) * 144.0 / tps));
+  int count240 = static_cast<int>(std::lround(static_cast<double>(g.framePerfectCount) * 240.0 / tps));
+
+  g.framePerfectOverlayText = fmt::format(
+    "FP {} {} ({}) | 60:{} 144:{} 240:{}",
+    buttonName,
+    down ? "Press" : "Release",
+    typeName,
+    count60,
+    count144,
+    count240
+  );
+  g.framePerfectOverlayFrames = 45;
+}
+
 std::filesystem::path Global::getFolderSettingPath(std::string const& settingID, bool createIfMissing) {
   auto& g = Global::get();
   auto fallback = [&]() {

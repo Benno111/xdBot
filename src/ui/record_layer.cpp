@@ -15,6 +15,8 @@
 #include <Geode/modify/EditorPauseLayer.hpp>
 #include <Geode/binding/LevelEditorLayer.hpp>
 #include <Geode/utils/web.hpp>
+#include <array>
+#include <ctime>
 
 const std::vector<std::vector<RecordSetting>> settings {
 	{
@@ -109,6 +111,67 @@ std::string getSavedFramePerfectOverlayMode(Mod* mod) {
             return value;
     }
     return "When";
+}
+
+int monthFromDateAbbrev(std::string_view month) {
+    static const std::array<std::string_view, 12> months = {
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    };
+
+    for (int i = 0; i < static_cast<int>(months.size()); i++) {
+        if (months[i] == month) return i;
+    }
+    return -1;
+}
+
+std::time_t getBuildTimestampForExpiry() {
+    // __DATE__ format: "Mmm dd yyyy"
+    std::string date = __DATE__;
+    if (date.size() < 11) return static_cast<std::time_t>(-1);
+
+    int month = monthFromDateAbbrev(std::string_view(date.data(), 3));
+    if (month < 0) return static_cast<std::time_t>(-1);
+
+    int day = 0;
+    int year = 0;
+
+    try {
+        day = std::stoi(date.substr(4, 2));
+        year = std::stoi(date.substr(7, 4));
+    } catch (...) {
+        return static_cast<std::time_t>(-1);
+    }
+
+    std::tm tm = {};
+    tm.tm_year = year - 1900;
+    tm.tm_mon = month;
+    tm.tm_mday = day;
+    tm.tm_hour = 0;
+    tm.tm_min = 0;
+    tm.tm_sec = 0;
+    tm.tm_isdst = -1;
+
+    return std::mktime(&tm);
+}
+
+std::string getBuildExpiryTimerText() {
+    std::time_t build = getBuildTimestampForExpiry();
+    if (build == static_cast<std::time_t>(-1))
+        return "Exp: N/A";
+
+    constexpr std::time_t kThirtyDays = static_cast<std::time_t>(30 * 24 * 60 * 60);
+    std::time_t expiry = build + kThirtyDays;
+    std::time_t now = std::time(nullptr);
+
+    if (now >= expiry)
+        return "Exp: expired";
+
+    std::time_t remaining = expiry - now;
+    int days = static_cast<int>(remaining / (24 * 60 * 60));
+    int hours = static_cast<int>((remaining % (24 * 60 * 60)) / (60 * 60));
+
+    return fmt::format("Exp: {}d {:02}h", days, hours);
 }
 
 GJGameLevel* getCurrentLevelForMenus() {
@@ -794,6 +857,19 @@ bool RecordLayer::setup() {
     versionLabel->setScale(0.4f);
     versionLabel->setSkewX(4);
     menu->addChild(versionLabel);
+
+    if (!geobotDisableBuildExpiryLock) {
+        auto timerText = getBuildExpiryTimerText();
+        CCLabelBMFont* expiryLabel = CCLabelBMFont::create(timerText.c_str(), "chatFont.fnt");
+        expiryLabel->setOpacity(63);
+        expiryLabel->setAnchorPoint({ 0, 0.5 });
+        expiryLabel->setScale(0.4f);
+        expiryLabel->setSkewX(4);
+
+        float versionWidth = versionLabel->getContentSize().width * versionLabel->getScaleX();
+        expiryLabel->setPosition(ccp(versionLabel->getPositionX() + versionWidth + 8.f, -125));
+        menu->addChild(expiryLabel);
+    }
 
 #ifdef GEODE_IS_WINDOWS
 
