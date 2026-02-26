@@ -14,7 +14,8 @@ cocos2d::CCPoint dataFromString(std::string dataString);
 
 std::vector<std::string> splitByChar(std::string str, char splitChar);
 
-const std::string geobotVersion = "v2.5.0-alpha.1";
+const std::string geobotVersion = "alpha 2 - dev";
+constexpr bool geobotDisableBuildExpiryLock = false;
 
 namespace gdr {
 

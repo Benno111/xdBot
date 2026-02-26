@@ -7,31 +7,17 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/PauseLayer.hpp>
+#include <Geode/binding/LevelEditorLayer.hpp>
+
+namespace {
+  // Prefer explicit editor-layer presence, with m_isTestMode as fallback.
+  bool isEditorPlaytestCompat(PlayLayer* pl) {
+    if (!pl) return false;
+    return LevelEditorLayer::get() != nullptr || pl->m_isTestMode;
+  }
+}
 
 $execute {
-
-  geode::listenForSettingChanges<std::string>("macro_accuracy", +[](std::string value) {
-    auto& g = Global::get();
-    
-    g.frameFixes = false;
-    g.inputFixes = false;
-
-    if (value == "Frame Fixes") g.frameFixes = true;
-    if (value == "Input Fixes") g.inputFixes = true;
-  });
-
-  geode::listenForSettingChanges<int64_t>("frame_fixes_limit", +[](int64_t value) {
-    Global::get().frameFixesLimit = value;
-  });
-
-  geode::listenForSettingChanges<bool>("lock_delta", +[](bool value) {
-    Global::get().lockDelta = value;
-  });
-
-  geode::listenForSettingChanges<bool>("auto_stop_playing", +[](bool value) {
-    Global::get().stopPlaying = value;
-  });
-
 };
 
 class $modify(PlayLayer) {
@@ -116,15 +102,15 @@ class $modify(PlayLayer) {
     if (!PlayLayer::init(level, b1, b2)) return false;
 
     if (g.state == state::playing) {
-      // Starting a fresh level or editor playtest should not inherit playback
-      // state from any previous run/session.
+      // Starting a fresh level run or editor playtest should not inherit
+      // playback state from any previous run/session.
       g.currentAction = 0;
       g.currentFrameFix = 0;
       g.previousFrame = 0;
       g.respawnFrame = -1;
       g.leftOver = 0.f;
       Macro::resetVariables();
-      if (m_isTestMode)
+      if (isEditorPlaytestCompat(this))
         g.restart = true;
     }
 

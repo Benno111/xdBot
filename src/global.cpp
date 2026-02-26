@@ -5,6 +5,8 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
 #include <random>
+#include <array>
+#include <ctime>
 
 class $modify(CCTextInputNode) {
 
@@ -14,6 +16,61 @@ class $modify(CCTextInputNode) {
         return CCTextInputNode::ccTouchBegan(v1, v2);
     }
 };
+
+namespace {
+int monthFromDateAbbrev(std::string_view month) {
+  static const std::array<std::string_view, 12> months = {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  };
+  for (int i = 0; i < static_cast<int>(months.size()); i++) {
+    if (months[i] == month) return i;
+  }
+  return -1;
+}
+
+std::time_t getBuildTimestamp() {
+  // __DATE__ format: "Mmm dd yyyy"
+  std::string date = __DATE__;
+  if (date.size() < 11) return static_cast<std::time_t>(-1);
+
+  std::string_view monthStr(date.data(), 3);
+  int month = monthFromDateAbbrev(monthStr);
+  if (month < 0) return static_cast<std::time_t>(-1);
+
+  int day = 0;
+  int year = 0;
+
+  try {
+    day = std::stoi(date.substr(4, 2));
+    year = std::stoi(date.substr(7, 4));
+  } catch (...) {
+    return static_cast<std::time_t>(-1);
+  }
+
+  std::tm tm = {};
+  tm.tm_year = year - 1900;
+  tm.tm_mon = month;
+  tm.tm_mday = day;
+  tm.tm_hour = 0;
+  tm.tm_min = 0;
+  tm.tm_sec = 0;
+  tm.tm_isdst = -1;
+
+  return std::mktime(&tm);
+}
+
+bool hasBuildExpiredBy30Days() {
+  if (geobotDisableBuildExpiryLock) return false;
+
+  std::time_t build = getBuildTimestamp();
+  if (build == static_cast<std::time_t>(-1)) return false;
+
+  constexpr std::time_t kThirtyDays = static_cast<std::time_t>(30 * 24 * 60 * 60);
+  std::time_t expiry = build + kThirtyDays;
+  return std::time(nullptr) > expiry;
+}
+}
 
 struct IncompatibleSetting {
   std::string ID;
@@ -147,6 +204,24 @@ bool Global::hasIncompatibleMods() {
   }
 
   return ret;
+}
+
+bool Global::isBuildExpired() {
+  return Global::get().buildExpired;
+}
+
+void Global::showBuildExpiredNotice() {
+  auto& g = Global::get();
+  if (g.buildExpiryNoticeShown) return;
+  g.buildExpiryNoticeShown = true;
+
+  Loader::get()->queueInMainThread([] {
+    FLAlertLayer::create(
+      "geobot",
+      "This build has expired (30-day limit). Please install a newer build.",
+      "OK"
+    )->show();
+  });
 }
 
 float Global::getTPS() {
@@ -328,6 +403,11 @@ PauseLayer* Global::getPauseLayer() {
 
 $execute{
   auto & g = Global::get();
+  g.buildExpired = hasBuildExpiredBy30Days();
+  if (g.buildExpired) {
+    Global::showBuildExpiredNotice();
+    return;
+  }
 
   if (!g.mod->setSavedValue("defaults_set_14", true)) {
     g.mod->setSavedValue("render_fade_in_video", std::to_string(2));
@@ -361,7 +441,7 @@ $execute{
     g.mod->setSavedValue("render_fade_in_video", std::to_string(2));
     g.mod->setSavedValue("render_fade_out_video", std::to_string(2));
 
-    g.mod->setSavedValue("macro_auto_stop_playing", false);
+    g.mod->setSavedValue("auto_stop_playing", true);
     g.mod->setSavedValue("macro_tps", 240.f);
     g.mod->setSavedValue("macro_tps_enabled", false);
 
@@ -424,6 +504,14 @@ $execute{
 
   }
 
+  if (!g.mod->setSavedValue("defaults_set_16", true)) {
+    g.mod->setSavedValue("macro_accuracy", std::string("Frame Fixes"));
+    g.mod->setSavedValue("frame_offset", 0);
+    g.mod->setSavedValue("frame_fixes_limit", 240);
+    g.mod->setSavedValue("lock_delta", false);
+    g.mod->setSavedValue("auto_stop_playing", true);
+  }
+
   g.showTrajectory = g.mod->getSavedValue<bool>("macro_show_trajectory");
   g.coinFinder = g.mod->getSavedValue<bool>("macro_coin_finder");
   g.frameStepper = g.mod->getSavedValue<bool>("macro_frame_stepper");
@@ -452,10 +540,10 @@ $execute{
   g.speedhackEnabled = false;
   g.mod->setSavedValue("macro_speedhack_enabled", false);
 
-  g.frameOffset = g.mod->getSettingValue<int64_t>("frame_offset");
-  g.frameFixesLimit = g.mod->getSettingValue<int64_t>("frame_fixes_limit");
-  g.lockDelta = g.mod->getSettingValue<bool>("lock_delta");
-  g.stopPlaying = g.mod->getSettingValue<bool>("auto_stop_playing");
+  g.frameOffset = g.mod->getSavedValue<int64_t>("frame_offset");
+  g.frameFixesLimit = g.mod->getSavedValue<int64_t>("frame_fixes_limit");
+  g.lockDelta = g.mod->getSavedValue<bool>("lock_delta");
+  g.stopPlaying = g.mod->getSavedValue<bool>("auto_stop_playing");
 
   if (g.mod->getSavedValue<std::string>("render_hardware_accel").empty())
     g.mod->setSavedValue("render_hardware_accel", std::string("Off"));
@@ -474,9 +562,9 @@ $execute{
   }
 #endif
 
-  if (g.mod->getSettingValue<std::string>("macro_accuracy") == "Frame Fixes")
+  if (g.mod->getSavedValue<std::string>("macro_accuracy") == "Frame Fixes")
     g.frameFixes = true;
-  else if (g.mod->getSettingValue<std::string>("macro_accuracy") == "Input Fixes")
+  else if (g.mod->getSavedValue<std::string>("macro_accuracy") == "Input Fixes")
     g.inputFixes = true;
 
   g.macro.author = "N/A";

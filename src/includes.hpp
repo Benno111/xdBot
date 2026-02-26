@@ -76,6 +76,8 @@ public:
     }
 
     static bool hasIncompatibleMods();
+    static bool isBuildExpired();
+    static void showBuildExpiredNotice();
 
     static float getTPS();
 
@@ -180,6 +182,8 @@ public:
     int frameFixesLimit = 240;
     bool frameFixes = false;
     bool inputFixes = false;
+    bool buildExpired = false;
+    bool buildExpiryNoticeShown = false;
 
     int currentPage = 0;
     float currentPitch = 1.f;

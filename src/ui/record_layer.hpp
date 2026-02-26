@@ -17,7 +17,10 @@ enum InputType {
 	Speedhack,
 	Seed,
 	Respawn,
-	Tps
+	Tps,
+	FrameOffset,
+	FrameFixesLimit,
+	Accuracy
 };
 
 struct RecordSetting {
@@ -59,6 +62,8 @@ public:
 	CCTextInputNode* speedhackInput = nullptr;
 	CCTextInputNode* respawnInput = nullptr;
 	CCTextInputNode* tpsInput = nullptr;
+	CCTextInputNode* frameOffsetInput = nullptr;
+	CCTextInputNode* frameFixesLimitInput = nullptr;
 	geode::ScrollLayer* settingsScroll = nullptr;
 	geode::Scrollbar* settingsScrollbar = nullptr;
 	CCMenu* settingsMenu = nullptr;
@@ -137,6 +142,7 @@ public:
 	void toggleFPS(bool on);
 
 	void onDiscord(CCObject*);
+	void onCycleAccuracy(CCObject*);
 
 	void updateTPS();
 

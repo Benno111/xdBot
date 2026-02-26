@@ -18,6 +18,11 @@
 
 const std::vector<std::vector<RecordSetting>> settings {
 	{
+		{ "Accuracy:", "macro_accuracy", InputType::Accuracy, 0.4f },
+		{ "Frame Offset:", "frame_offset", InputType::FrameOffset, 0.4f },
+		{ "Frame Fix Limit:", "frame_fixes_limit", InputType::FrameFixesLimit, 0.4f },
+		{ "Lock Delta:", "lock_delta", InputType::None },
+		{ "Auto Stop Playing:", "auto_stop_playing", InputType::None },
 		{ "TPS Bypass:", "macro_tps_enabled", InputType::Tps, 0.4f },
 		{ "Speedhack:", "macro_speedhack_enabled", InputType::Speedhack, 0.4f },
 		{ "Seed:", "macro_seed_enabled", InputType::Seed, 0.4f },
@@ -54,7 +59,6 @@ const std::vector<std::vector<RecordSetting>> settings {
 		{ "Ignore inputs:", "macro_ignore_inputs", InputType::None },
 		{ "Show Frame Label:", "macro_show_frame_label", InputType::None },
 		{ "Speedhack Audio:", "macro_speedhack_audio", InputType::None }
-		// { "Auto Stop Playing:", "macro_auto_stop_playing", InputType::None }
 	},
     {
 		{ "Respawn Time:", "respawn_time_enabled", InputType::Respawn },
@@ -67,6 +71,27 @@ const std::vector<std::vector<RecordSetting>> settings {
 };
 
 namespace {
+const std::vector<std::string> kAccuracyModes = {
+    "Vanilla",
+    "Input Fixes",
+    "Frame Fixes"
+};
+
+std::string getSavedAccuracyMode(Mod* mod) {
+    std::string value = mod->getSavedValue<std::string>("macro_accuracy");
+    for (auto const& mode : kAccuracyModes) {
+        if (value == mode)
+            return value;
+    }
+    return "Frame Fixes";
+}
+
+void applyAccuracyMode(std::string const& value) {
+    auto& g = Global::get();
+    g.frameFixes = value == "Frame Fixes";
+    g.inputFixes = value == "Input Fixes";
+}
+
 GJGameLevel* getCurrentLevelForMenus() {
     if (PlayLayer* pl = PlayLayer::get())
         return pl->m_level;
@@ -141,6 +166,8 @@ CCMenu* findSettingsMenu(CCLayer* layer) {
 }
 
 void addgeobotPauseButton(cocos2d::CCLayer* layer) {
+    if (Global::isBuildExpired()) return;
+
 #ifdef GEODE_IS_WINDOWS
     if (!Mod::get()->getSavedValue<bool>("menu_show_button")) return;
 #endif
@@ -199,18 +226,6 @@ class $modify(EditorPauseLayer) {
 };
 
 $execute{
-    geode::listenForSettingChanges<int64_t>("frame_offset", +[](int64_t value) {
-        auto& g = Global::get();
-        g.frameOffset = value;
-
-        if (g.layer) {
-            static_cast<RecordLayer*>(g.layer)->warningLabel->setString(("WARNING: Currently recording / playing macros with a frame offset of " + std::to_string(value)).c_str());
-            static_cast<RecordLayer*>(g.layer)->warningLabel->setVisible(value != 0);
-            static_cast<RecordLayer*>(g.layer)->warningSprite->setVisible(value != 0);
-        }
-
-  });
-
     geode::listenForSettingChanges<cocos2d::ccColor3B>("background_color", +[](cocos2d::ccColor3B value) {
         auto& g = Global::get();
         if (g.layer) {
@@ -272,6 +287,11 @@ void RecordLayer::clear22Percentage(CCObject*) {
 
 RecordLayer* RecordLayer::openMenu(bool instant) {
     auto& g = Global::get();
+    if (g.buildExpired) {
+        Global::showBuildExpiredNotice();
+        return nullptr;
+    }
+
     PlayLayer* pl = PlayLayer::get();
     bool cursor = false;
 
@@ -337,6 +357,10 @@ void RecordLayer::onClose(CCObject*) {
 
 void RecordLayer::toggleRecording(CCObject*) {
     auto& g = Global::get();
+    if (g.buildExpired) {
+        Global::showBuildExpiredNotice();
+        return recording->toggle(true);
+    }
 
     if (Global::hasIncompatibleMods())
         return recording->toggle(true);
@@ -366,6 +390,10 @@ void RecordLayer::toggleRecording(CCObject*) {
 
 void RecordLayer::togglePlaying(CCObject*) {
     auto& g = Global::get();
+    if (g.buildExpired) {
+        Global::showBuildExpiredNotice();
+        return playing->toggle(true);
+    }
 
     if (Global::hasIncompatibleMods())
         return playing->toggle(true);
@@ -489,6 +517,33 @@ void RecordLayer::textChanged(CCTextInputNode* node) {
         }
     }
 
+    if (frameOffsetInput && node == frameOffsetInput) {
+        auto value = geode::utils::numFromString<int>(frameOffsetInput->getString());
+        if (!value) {
+            frameOffsetInput->setString(std::to_string(Global::get().frameOffset).c_str());
+            return;
+        }
+        int parsed = value.unwrap();
+        if (parsed < -100) parsed = -100;
+        if (parsed > 100) parsed = 100;
+        mod->setSavedValue("frame_offset", parsed);
+        Global::get().frameOffset = parsed;
+        warningLabel->setString(("WARNING: Currently recording / playing macros with a frame offset of " + std::to_string(parsed)).c_str());
+        warningLabel->setVisible(parsed != 0);
+        warningSprite->setVisible(parsed != 0);
+    }
+
+    if (frameFixesLimitInput && node == frameFixesLimitInput) {
+        auto value = geode::utils::numFromString<int>(frameFixesLimitInput->getString());
+        if (!value) {
+            frameFixesLimitInput->setString(std::to_string(Global::get().frameFixesLimit).c_str());
+            return;
+        }
+        int parsed = std::max(1, value.unwrap());
+        mod->setSavedValue("frame_fixes_limit", parsed);
+        Global::get().frameFixesLimit = parsed;
+    }
+
     if (!speedhackInput || node != speedhackInput) return;
 
     if (std::string_view(speedhackInput->getString()) != "" && node == speedhackInput) {
@@ -526,6 +581,8 @@ void RecordLayer::toggleSetting(CCObject* obj) {
     if (id == "autoclicker_enabled") g.autoclicker = value;
     if (id == "disable_shaders") g.disableShaders = value;
     if (id == "macro_auto_save") g.autosaveEnabled = value;
+    if (id == "lock_delta") g.lockDelta = value;
+    if (id == "auto_stop_playing") g.stopPlaying = value;
 
     if (id == "macro_show_trajectory") {
         g.showTrajectory = value;
@@ -825,7 +882,7 @@ bool RecordLayer::setup() {
         this,
         menu_selector(RecordLayer::openSaveMacro));
 
-    btn->setPosition(ccp(-176, 34));
+    btn->setPosition(ccp(-162, 34));
     menu->addChild(btn);
 
 #ifdef GEODE_IS_WINDOWS
@@ -860,7 +917,7 @@ bool RecordLayer::setup() {
         this,
         menu_selector(RecordLayer::openLoadMacro));
 
-    btn->setPosition(ccp(-115, 34));
+    btn->setPosition(ccp(-106, 34));
     menu->addChild(btn);
 
     btnSprite = ButtonSprite::create("Edit");
@@ -870,7 +927,7 @@ bool RecordLayer::setup() {
         this,
         menu_selector(RecordLayer::onEditMacro));
 
-    btn->setPosition(ccp(-56, 34));
+    btn->setPosition(ccp(-50, 34));
     menu->addChild(btn);
 
     btnSprite = ButtonSprite::create("Rate");
@@ -880,7 +937,7 @@ bool RecordLayer::setup() {
         this,
         menu_selector(RecordLayer::openStarRateOverride)
     );
-    btn->setPosition(ccp(3, 34));
+    btn->setPosition(ccp(-44, 34));
     menu->addChild(btn);
 
     widthInput = CCTextInputNode::create(150, 30, "Width", "chatFont.fnt");
@@ -1063,16 +1120,27 @@ bool RecordLayer::setup() {
 
     loadSettingsList();
 
-    CCSprite* dickordSpr = CCSprite::createWithSpriteFrameName("gj_discordIcon_001.png");
-    dickordSpr->setScale(0.9f);
-    CCMenuItemSpriteExtra* dickordBtn = CCMenuItemSpriteExtra::create(dickordSpr, this, menu_selector(RecordLayer::onDiscord));
-    dickordBtn->setPosition((CCDirector::sharedDirector()->getWinSize() / 2 - m_size / 2 + ccp(-16, 16)));
-    m_buttonMenu->addChild(dickordBtn);
-
-    if (!Mod::get()->setSavedValue<bool>("dickord", true))
-        dickordSpr->runAction(CCSequence::create(CCScaleTo::create(0.25f, 1.5f), CCRotateTo::create(0.25f, 90), CCRotateTo::create(0.25f, 180), CCRotateTo::create(0.25f, 270), CCRotateTo::create(0.25f, 0), CCScaleTo::create(0.25f, 0.9f), nullptr));
-
     return true;
+}
+
+void RecordLayer::onCycleAccuracy(CCObject*) {
+    auto& g = Global::get();
+    std::string current = getSavedAccuracyMode(mod);
+    size_t index = 0;
+    for (size_t i = 0; i < kAccuracyModes.size(); i++) {
+        if (kAccuracyModes[i] == current) {
+            index = i;
+            break;
+        }
+    }
+
+    index = (index + 1) % kAccuracyModes.size();
+    std::string next = kAccuracyModes[index];
+    mod->setSavedValue("macro_accuracy", next);
+    applyAccuracyMode(next);
+
+    if (settingsMenu)
+        loadSettingsList();
 }
 
 void RecordLayer::setToggleMember(CCMenuItemToggler* toggle, std::string id) {
@@ -1269,6 +1337,80 @@ void RecordLayer::loadSetting(RecordSetting sett, float yPos, CCMenu* targetMenu
         nodes.push_back(static_cast<CCNode*>(respawnInput));
         targetMenu->addChild(respawnInput);
     }
+
+    if (sett.input == InputType::FrameOffset) {
+        CCScale9Sprite* bg = CCScale9Sprite::create("square02b_001.png", { 0, 0, 80, 80 });
+        bg->setPosition(ccp(110, yPos + 10));
+        bg->setScale(0.355f);
+        bg->setColor({ 0,0,0 });
+        bg->setOpacity(75);
+        bg->setAnchorPoint({ 0, 1 });
+        bg->setContentSize({ 100, 55 });
+        bg->setZOrder(29);
+        nodes.push_back(static_cast<CCNode*>(bg));
+        targetMenu->addChild(bg);
+
+        frameOffsetInput = CCTextInputNode::create(150, 30, "offset", "chatFont.fnt");
+        frameOffsetInput->setPosition(ccp(127.5, yPos));
+        frameOffsetInput->m_textField->setAnchorPoint({ 0.5f, 0.5f });
+        frameOffsetInput->ignoreAnchorPointForPosition(true);
+        frameOffsetInput->setMaxLabelScale(0.7f);
+        frameOffsetInput->setMouseEnabled(true);
+        frameOffsetInput->setTouchEnabled(true);
+        frameOffsetInput->setContentSize({ 32, 20 });
+        frameOffsetInput->setAllowedChars("0123456789-");
+        frameOffsetInput->setString(std::to_string(Global::get().frameOffset).c_str());
+        frameOffsetInput->setMaxLabelWidth(30.f);
+        frameOffsetInput->setDelegate(this);
+        frameOffsetInput->setMaxLabelLength(4);
+
+        nodes.push_back(static_cast<CCNode*>(frameOffsetInput));
+        targetMenu->addChild(frameOffsetInput);
+    }
+
+    if (sett.input == InputType::FrameFixesLimit) {
+        CCScale9Sprite* bg = CCScale9Sprite::create("square02b_001.png", { 0, 0, 80, 80 });
+        bg->setPosition(ccp(110, yPos + 10));
+        bg->setScale(0.355f);
+        bg->setColor({ 0,0,0 });
+        bg->setOpacity(75);
+        bg->setAnchorPoint({ 0, 1 });
+        bg->setContentSize({ 100, 55 });
+        bg->setZOrder(29);
+        nodes.push_back(static_cast<CCNode*>(bg));
+        targetMenu->addChild(bg);
+
+        frameFixesLimitInput = CCTextInputNode::create(150, 30, "fps", "chatFont.fnt");
+        frameFixesLimitInput->setPosition(ccp(127.5, yPos));
+        frameFixesLimitInput->m_textField->setAnchorPoint({ 0.5f, 0.5f });
+        frameFixesLimitInput->ignoreAnchorPointForPosition(true);
+        frameFixesLimitInput->setMaxLabelScale(0.7f);
+        frameFixesLimitInput->setMouseEnabled(true);
+        frameFixesLimitInput->setTouchEnabled(true);
+        frameFixesLimitInput->setContentSize({ 32, 20 });
+        frameFixesLimitInput->setAllowedChars("0123456789");
+        frameFixesLimitInput->setString(std::to_string(Global::get().frameFixesLimit).c_str());
+        frameFixesLimitInput->setMaxLabelWidth(30.f);
+        frameFixesLimitInput->setDelegate(this);
+        frameFixesLimitInput->setMaxLabelLength(6);
+
+        nodes.push_back(static_cast<CCNode*>(frameFixesLimitInput));
+        targetMenu->addChild(frameFixesLimitInput);
+    }
+
+    if (sett.input == InputType::Accuracy) {
+        ButtonSprite* btnSpr = ButtonSprite::create(getSavedAccuracyMode(mod).c_str());
+        btnSpr->setScale(0.4f);
+        CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create(
+            btnSpr,
+            this,
+            menu_selector(RecordLayer::onCycleAccuracy)
+        );
+        btn->setPosition(ccp(127.5, yPos));
+
+        nodes.push_back(static_cast<CCNode*>(btn));
+        targetMenu->addChild(btn);
+    }
 }
 
 void RecordLayer::loadSettingsList() {
@@ -1286,6 +1428,8 @@ void RecordLayer::loadSettingsList() {
     respawnInput = nullptr;
     seedInput = nullptr;
     tpsInput = nullptr;
+    frameOffsetInput = nullptr;
+    frameFixesLimitInput = nullptr;
 
     tpsBg = nullptr;
 
@@ -1316,6 +1460,9 @@ void RecordLayer::loadSettingsList() {
     settingsMenu->setPosition({ 0.f, 0.f });
     settingsMenu->setAnchorPoint({ 0.f, 0.f });
     settingsMenu->setContentSize({ viewWidth, contentHeight });
+    // Keep settings controls above the root menu in touch routing so
+    // toggles/inputs inside the scroll area are reliably clickable.
+    settingsMenu->setTouchPriority(menu ? menu->getTouchPriority() - 1 : -129);
     settingsScroll->m_contentLayer->addChild(settingsMenu);
 
     size_t i = 0;

@@ -1,46 +1,39 @@
-#DEVELOPMENT WARNIG!
-THIS MOD IS STILL UNDER ACTIVE DEVELOPMENT!
-
-
+# Development Warning
+This mod is still under active development.
 
 # geobot
-
-<cl>geobot</c> is a simple botting tool designed to be easy for anyone to use; intended for <cg>showcases</c>.
+<cl>geobot</c> is a macro and utility toolkit designed to be easy to use, mainly for <cg>showcases</c>.
 
 # Features
+* Macro recording and playback.
+* Macro save/load system.
+* Macro autosaving.
+* Accuracy modes (Vanilla / Input Fixes / Frame Fixes).
+* Frame Offset and Frame Fix Limit controls.
+* Lock Delta and Auto Stop Playing controls.
+* Basic Clickbot.
+* Practice Fixes.
+* Seed Modifier.
+* Noclip.
+* Show Trajectory.
+* Layout Mode.
+* Speedhack.
+* Frame Stepper.
+* Safe Mode.
+* Renderer.
+* Instant Respawn.
+* No Respawn Flash.
+* No Death Effect.
 
- * Basic ClickBot.
- * Practice Fixes.
- * Seed Modifier.
- * Noclip.
- * Show Trajectory.
- * Layout Mode.
- * Speedhack.
- * Frame Stepper.
- * Safe Mode.
- * Renderer.
- * Instant Respawn.
- * No Respawn Flash.
- * No Death Effect.
- * Macro saving and loading system.
- * Macro Auto Saving.
-
-# How to use
-
-* Open the menu using the Open Menu Keybind or the button in the Pause Menu.
-
-* Click the 'Record' toggle in the menu to start recording.
-
-* Finish a practice run of the level.
-
-* Play the macro by clicking the 'Play' toggle in the menu and going into the level.
+# How to Use
+* Open the menu with the `Open Menu` keybind or the pause-menu button.
+* Enable `Record` to start recording.
+* Play the level/practice run.
+* Enable `Play` to run the recorded macro.
+* Adjust macro behavior in the menu settings list (no need to edit JSON settings).
 
 # Thanks
-
-* Thanks to Viper for letting me use their Safe Mode implementation.
-
-* Thanks to Zilko for creating the backend.
-
-* Thanks to ReplayBot for being open source and letting me steal the code for the renderer.
-
-* Thanks to CatXus and Aadam_yes for helping me test the early android versions.
+* Viper for the Safe Mode implementation.
+* Zilko for creating the backend.
+* ReplayBot for open-source renderer references.
+* CatXus and Aadam_yes for testing early Android versions.
