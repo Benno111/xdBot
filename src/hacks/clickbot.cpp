@@ -115,17 +115,9 @@ void Clickbot::playSound(std::string id) {
     result = c.channel->setVolume((settings.volume / 100.f) * (masterVol / 100.f));
     if (result != FMOD_OK) return log::debug("Click sound errored. ID: 3");
 
-    result = c.channel->setPitch(g.currentPitch);
+    float totalPitch = g.currentPitch * settings.pitch * g.mod->getSavedValue<float>("clickbot_pitch");
+    result = c.channel->setPitch(totalPitch);
     if (result != FMOD_OK) return log::debug("Click sound errored. ID: 4");
-
-    FMOD::DSP* pitchShifter = c.pitchShifter;
-    if (!pitchShifter) return updateSounds();
-
-    result = pitchShifter->setParameterFloat(FMOD_DSP_PITCHSHIFT_PITCH, settings.pitch * g.mod->getSavedValue<float>("clickbot_pitch"));
-    if (result != FMOD_OK) return log::debug("Click sound errored. ID: 6");
-
-    result = c.channel->addDSP(0, pitchShifter);
-    if (result != FMOD_OK) return log::debug("Click sound errored. ID: 7");
 }
 
 void Clickbot::updateSounds() {
@@ -154,8 +146,4 @@ void Clickbot::updateSounds() {
         setSound(name, sound);
     }
 
-    if (!c.pitchShifter) {
-        result = c.system->createDSPByType(FMOD_DSP_TYPE_PITCHSHIFT, &c.pitchShifter);
-        if (result != FMOD_OK) return log::debug("Click sound errored. ID: 5");
-    }
 }

@@ -1,3 +1,14 @@
 # 1.0.0-alpha.2
 
-* starting the process to fork it from xd-bot by adding new featues and menu overhauls
+* add geode 5x and 2.208
+* starting the process to fork it from xd-bot
+* menu overhauls
+* added blur
+* add editor boting
+* moving all settings in one place
+* add star rate override
+* add frame perfect counter
+* bundling ffempeg with the mod
+* harware acelreated renderer
+* added the dependencies for ffempeg
+

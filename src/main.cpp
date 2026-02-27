@@ -101,6 +101,9 @@ class $modify(PlayLayer) {
     g.macroUsedInAttempt = false;
     g.framePerfectOverlayFrames = 0;
     g.framePerfectCount = 0;
+    g.framePerfectCount60 = 0;
+    g.framePerfectCount144 = 0;
+    g.framePerfectCount240 = 0;
     g.lastFramePerfectAction = std::numeric_limits<size_t>::max();
 
     if (!PlayLayer::init(level, b1, b2)) return false;
@@ -134,6 +137,9 @@ class $modify(PlayLayer) {
     g.macroUsedInAttempt = false;
     g.framePerfectOverlayFrames = 0;
     g.framePerfectCount = 0;
+    g.framePerfectCount60 = 0;
+    g.framePerfectCount144 = 0;
+    g.framePerfectCount240 = 0;
     g.lastFramePerfectAction = std::numeric_limits<size_t>::max();
 
     int frame = Global::getCurrentFrame();
@@ -201,17 +207,24 @@ class $modify(PlayLayer) {
 class $modify(BGLHook, GJBaseGameLayer) {
 
   struct Fields {
+    static constexpr int kWiggleScanFrames = 6;
     bool macroInput = false;
+    struct AliveSample {
+      int frame = 0;
+      bool alive[2] = { true, true };
+    };
     struct PendingFramePerfect {
       size_t actionIndex = 0;
+      int inputFrame = 0;
       int resolveFrame = 0;
       int button = 0;
       bool down = false;
       bool player2 = false;
-      bool surviveLast = true;
       std::string typeName = "";
     };
     std::vector<PendingFramePerfect> pendingFramePerfects;
+    std::vector<AliveSample> aliveHistory;
+    int lastAliveHistoryFrame = std::numeric_limits<int>::min();
     bool aliveLastFrame[2] = { true, true };
   };
 
@@ -346,31 +359,6 @@ class $modify(BGLHook, GJBaseGameLayer) {
       return;
     }
 
-    if (!m_fields->pendingFramePerfects.empty()) {
-      for (size_t i = 0; i < m_fields->pendingFramePerfects.size();) {
-        auto const& pending = m_fields->pendingFramePerfects[i];
-        if (frame < pending.resolveFrame) {
-          i++;
-          continue;
-        }
-
-        PlayerObject* player = pending.player2 ? m_player2 : m_player1;
-        bool surviveNext = player && !player->m_isDead;
-        // Frame-perfect proxy:
-        // if both adjacent frames are survivable, this input is not tight.
-        if (!(pending.surviveLast && surviveNext)) {
-          Global::triggerFramePerfectOverlayCounted(
-            pending.actionIndex,
-            pending.button,
-            pending.down,
-            pending.typeName
-          );
-        }
-
-        m_fields->pendingFramePerfects.erase(m_fields->pendingFramePerfects.begin() + i);
-      }
-    }
-
     m_fields->macroInput = true;
 
     while (g.currentAction < g.macro.inputs.size() && frame >= g.macro.inputs[g.currentAction].frame) {
@@ -392,14 +380,13 @@ class $modify(BGLHook, GJBaseGameLayer) {
           else if (isWaveRelease) typeName = "Wave Release";
           else if (isRobotRelease) typeName = "Robot Release";
 
-          auto const& aliveLast = m_fields->aliveLastFrame[input.player2 ? 1 : 0];
           m_fields->pendingFramePerfects.push_back({
             actionIndex,
-            frame + 1,
+            frame,
+            frame + Fields::kWiggleScanFrames,
             input.button,
             input.down,
             input.player2,
-            aliveLast,
             typeName
           });
         }
@@ -423,36 +410,102 @@ class $modify(BGLHook, GJBaseGameLayer) {
       }
     }
 
-    if (!g.frameFixes && !g.inputFixes) return;
+    if (g.frameFixes || g.inputFixes) {
+      while (g.currentFrameFix < g.macro.frameFixes.size() && frame >= g.macro.frameFixes[g.currentFrameFix].frame) {
+        auto& fix = g.macro.frameFixes[g.currentFrameFix];
 
-    while (g.currentFrameFix < g.macro.frameFixes.size() && frame >= g.macro.frameFixes[g.currentFrameFix].frame) {
-      auto& fix = g.macro.frameFixes[g.currentFrameFix];
+        PlayerObject* p1 = m_player1;
+        PlayerObject* p2 = m_player2;
 
-      PlayerObject* p1 = m_player1;
-      PlayerObject* p2 = m_player2;
+        cocos2d::CCPoint pos1 = p1->getPosition();
+        cocos2d::CCPoint pos2 = p2->getPosition();
 
-      cocos2d::CCPoint pos1 = p1->getPosition();
-      cocos2d::CCPoint pos2 = p2->getPosition();
+        if (fix.p1.pos.x != 0.f && fix.p1.pos.y != 0.f)
+          p1->setPosition(fix.p1.pos);
+          
+        if (fix.p1.rotate && fix.p1.rotation != 0.f)
+          p1->setRotation(fix.p1.rotation);
 
-      if (fix.p1.pos.x != 0.f && fix.p1.pos.y != 0.f)
-        p1->setPosition(fix.p1.pos);
-        
-      if (fix.p1.rotate && fix.p1.rotation != 0.f)
-        p1->setRotation(fix.p1.rotation);
+        if (m_gameState.m_isDualMode) {
+          if (fix.p2.pos.x != 0.f && fix.p2.pos.y != 0.f)
+            p2->setPosition(fix.p2.pos);
 
-      if (m_gameState.m_isDualMode) {
-        if (fix.p2.pos.x != 0.f && fix.p2.pos.y != 0.f)
-          p2->setPosition(fix.p2.pos);
+          if (fix.p2.rotate && fix.p2.rotation != 0.f)
+            p2->setRotation(fix.p2.rotation);
+        }
 
-        if (fix.p2.rotate && fix.p2.rotation != 0.f)
-          p2->setRotation(fix.p2.rotation);
+        g.currentFrameFix++;
       }
-
-      g.currentFrameFix++;
     }
 
     m_fields->aliveLastFrame[0] = m_player1 && !m_player1->m_isDead;
     m_fields->aliveLastFrame[1] = m_player2 && !m_player2->m_isDead;
+
+    if (frame <= m_fields->lastAliveHistoryFrame) {
+      m_fields->aliveHistory.clear();
+      m_fields->pendingFramePerfects.clear();
+    }
+
+    m_fields->lastAliveHistoryFrame = frame;
+    m_fields->aliveHistory.push_back({
+      frame,
+      { m_fields->aliveLastFrame[0], m_fields->aliveLastFrame[1] }
+    });
+
+    int const historyFloor = frame - (Fields::kWiggleScanFrames + 6);
+    while (!m_fields->aliveHistory.empty() && m_fields->aliveHistory.front().frame < historyFloor)
+      m_fields->aliveHistory.erase(m_fields->aliveHistory.begin());
+
+    auto getAliveAt = [&](int targetFrame, bool player2, bool& known) {
+      for (auto it = m_fields->aliveHistory.rbegin(); it != m_fields->aliveHistory.rend(); ++it) {
+        if (it->frame == targetFrame) {
+          known = true;
+          return it->alive[player2 ? 1 : 0];
+        }
+        if (it->frame < targetFrame) break;
+      }
+      known = false;
+      return false;
+    };
+
+    if (!m_fields->pendingFramePerfects.empty()) {
+      for (size_t i = 0; i < m_fields->pendingFramePerfects.size();) {
+        auto const& pending = m_fields->pendingFramePerfects[i];
+        if (frame < pending.resolveFrame) {
+          i++;
+          continue;
+        }
+
+        int leftWiggle = 0;
+        for (int offset = 1; offset <= Fields::kWiggleScanFrames; offset++) {
+          bool known = false;
+          bool alive = getAliveAt(pending.inputFrame - offset, pending.player2, known);
+          if (!known || !alive) break;
+          leftWiggle++;
+        }
+
+        int rightWiggle = 0;
+        for (int offset = 1; offset <= Fields::kWiggleScanFrames; offset++) {
+          bool known = false;
+          bool alive = getAliveAt(pending.inputFrame + offset, pending.player2, known);
+          if (!known || !alive) break;
+          rightWiggle++;
+        }
+
+        if (leftWiggle == 0 || rightWiggle == 0) {
+          Global::triggerFramePerfectOverlayCounted(
+            pending.actionIndex,
+            pending.button,
+            pending.down,
+            pending.typeName,
+            leftWiggle,
+            rightWiggle
+          );
+        }
+
+        m_fields->pendingFramePerfects.erase(m_fields->pendingFramePerfects.begin() + i);
+      }
+    }
 
   }
 

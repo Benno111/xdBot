@@ -16,7 +16,7 @@ struct matjson::Serialize<ClickSetting> {
     static ClickSetting from_json(matjson::Value const& value) {
         ClickSetting setts;
 
-        setts.disabled = value["disabled"].asBool().unwrapOr(true);
+        setts.disabled = value["disabled"].asBool().unwrapOr(false);
         setts.path = std::filesystem::path(value["path"].asString().unwrapOrDefault());
         setts.volume = value["volume"].asInt().unwrapOrDefault();
         setts.pitch = static_cast<float>(value["pitch"].asDouble().unwrapOrDefault());
@@ -42,8 +42,6 @@ public:
 
     FMOD::System* system = nullptr;
     FMOD::Channel* channel = nullptr;
-    FMOD::DSP* pitchShifter = nullptr;
-
     FMOD::Sound* holdClick = nullptr;
     FMOD::Sound* releaseClick = nullptr;
     FMOD::Sound* holdLeft = nullptr;

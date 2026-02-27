@@ -462,31 +462,41 @@ void Global::triggerFramePerfectOverlay(int button, bool down) {
   g.framePerfectOverlayFrames = 30;
 }
 
-void Global::triggerFramePerfectOverlayCounted(size_t actionIndex, int button, bool down, std::string const& typeName) {
+void Global::triggerFramePerfectOverlayCounted(size_t actionIndex, int button, bool down, std::string const& typeName, int leftWiggle, int rightWiggle) {
   auto& g = Global::get();
   if (g.lastFramePerfectAction == actionIndex)
     return;
 
   g.lastFramePerfectAction = actionIndex;
-  g.framePerfectCount++;
+  double tps = std::max(1.0, static_cast<double>(Global::getTPS()));
+  auto isFramePerfectForFPS = [&](double targetFps) {
+    double stepFrames = tps / targetFps;
+    return static_cast<double>(leftWiggle) < stepFrames || static_cast<double>(rightWiggle) < stepFrames;
+  };
+
+  if (isFramePerfectForFPS(60.0))
+    g.framePerfectCount60++;
+  if (isFramePerfectForFPS(144.0))
+    g.framePerfectCount144++;
+  if (isFramePerfectForFPS(240.0))
+    g.framePerfectCount240++;
+
+  g.framePerfectCount = g.framePerfectCount240;
 
   const char* buttonName = "Click";
   if (button == 2) buttonName = "Left";
   else if (button == 3) buttonName = "Right";
 
-  double tps = std::max(1.0, static_cast<double>(Global::getTPS()));
-  int count60 = static_cast<int>(std::lround(static_cast<double>(g.framePerfectCount) * 60.0 / tps));
-  int count144 = static_cast<int>(std::lround(static_cast<double>(g.framePerfectCount) * 144.0 / tps));
-  int count240 = static_cast<int>(std::lround(static_cast<double>(g.framePerfectCount) * 240.0 / tps));
-
   g.framePerfectOverlayText = fmt::format(
-    "FP {} {} ({}) | 60:{} 144:{} 240:{}",
+    "FP {} {} ({}) | Wiggle L:{} R:{} | 60:{} 144:{} 240:{}",
     buttonName,
     down ? "Press" : "Release",
     typeName,
-    count60,
-    count144,
-    count240
+    leftWiggle,
+    rightWiggle,
+    g.framePerfectCount60,
+    g.framePerfectCount144,
+    g.framePerfectCount240
   );
   g.framePerfectOverlayFrames = 45;
 }
@@ -495,7 +505,7 @@ std::filesystem::path Global::getFolderSettingPath(std::string const& settingID,
   auto& g = Global::get();
   auto fallback = [&]() {
     if (settingID == "macros_folder")
-      return g.mod->getSaveDir() / "macros";
+      return geode::dirs::getGameDir() / "macros";
     if (settingID == "autosaves_folder")
       return g.mod->getSaveDir() / "autosaves";
     if (settingID == "render_folder")
@@ -547,8 +557,24 @@ $execute{
   }
 
   if (!g.mod->setSavedValue("defaults_set_12", true)) {
-    g.mod->setSettingValue<std::filesystem::path>("macros_folder", g.mod->getSaveDir() / "macros");
+    g.mod->setSettingValue<std::filesystem::path>("macros_folder", Global::getFolderSettingPath("macros_folder"));
     g.mod->setSettingValue<std::filesystem::path>("autosaves_folder", g.mod->getSaveDir() / "autosaves");
+  }
+
+  if (!g.mod->setSavedValue("defaults_set_18", true)) {
+    std::filesystem::path currentSaveDir = g.mod->getSaveDir();
+    std::filesystem::path currentMacros = g.mod->getSettingValue<std::filesystem::path>("macros_folder");
+    std::filesystem::path gameMacros = geode::dirs::getGameDir() / "macros";
+    std::filesystem::path parent = currentSaveDir.parent_path();
+
+    if (!parent.empty()) {
+      std::filesystem::path geobotDefault = currentSaveDir / "macros";
+      std::filesystem::path bennoLegacy = parent / "benno111.xdbot" / "macros";
+      std::filesystem::path zilkoLegacy = parent / "zilko.xdbot" / "macros";
+
+      if (currentMacros.empty() || currentMacros == geobotDefault || currentMacros == bennoLegacy || currentMacros == zilkoLegacy)
+        g.mod->setSettingValue<std::filesystem::path>("macros_folder", gameMacros);
+    }
   }
 
   #ifdef GEODE_IS_ANDROID

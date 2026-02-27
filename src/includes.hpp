@@ -110,7 +110,7 @@ public:
     static PauseLayer* getPauseLayer();
     static std::filesystem::path getFolderSettingPath(std::string const& settingID, bool createIfMissing = true);
     static void triggerFramePerfectOverlay(int button, bool down);
-    static void triggerFramePerfectOverlayCounted(size_t actionIndex, int button, bool down, std::string const& typeName);
+    static void triggerFramePerfectOverlayCounted(size_t actionIndex, int button, bool down, std::string const& typeName, int leftWiggle, int rightWiggle);
 
     Mod* mod = Mod::get();
     geode::Popup* layer = nullptr;
@@ -204,5 +204,8 @@ public:
     int framePerfectOverlayFrames = 0;
     std::string framePerfectOverlayText = "";
     int framePerfectCount = 0;
+    int framePerfectCount60 = 0;
+    int framePerfectCount144 = 0;
+    int framePerfectCount240 = 0;
     size_t lastFramePerfectAction = std::numeric_limits<size_t>::max();
 };

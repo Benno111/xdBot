@@ -272,12 +272,12 @@ void PlayerPracticeFixes::applyData(PlayerObject* player, PlayerData data, bool 
 
     #ifdef GEODE_IS_WINDOWS
 
-    player->m_rotateObjectsRelated.insert(data.m_rotateObjectsRelated.begin(), data.m_rotateObjectsRelated.end());
-    player->m_potentialSlopeMap.insert(data.m_maybeRotatedObjectsMap.begin(), data.m_maybeRotatedObjectsMap.end());
-    player->m_touchedRings.insert(data.m_touchedRings.begin(), data.m_touchedRings.end());
-    player->m_ringRelatedSet.insert(data.m_ringRelatedSet.begin(), data.m_ringRelatedSet.end());
-    player->m_jumpPadRelated.insert(data.m_jumpPadRelated.begin(), data.m_jumpPadRelated.end());
-    player->m_holdingButtons.insert(data.m_holdingButtons.begin(), data.m_holdingButtons.end());
+    player->m_rotateObjectsRelated = data.m_rotateObjectsRelated;
+    player->m_potentialSlopeMap = data.m_maybeRotatedObjectsMap;
+    player->m_touchedRings = data.m_touchedRings;
+    player->m_ringRelatedSet = data.m_ringRelatedSet;
+    player->m_jumpPadRelated = data.m_jumpPadRelated;
+    player->m_holdingButtons = data.m_holdingButtons;
 
     player->m_playerFollowFloats.clear();
 

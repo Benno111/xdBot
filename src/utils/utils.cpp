@@ -1,5 +1,55 @@
 #include "utils.hpp"
 
+namespace {
+const char* kBlurVertShader = R"(
+attribute vec4 a_position;
+attribute vec2 a_texCoord;
+attribute vec4 a_color;
+varying vec2 v_texCoord;
+varying vec4 v_fragmentColor;
+
+void main() {
+    gl_Position = CC_MVPMatrix * a_position;
+    v_fragmentColor = a_color;
+    v_texCoord = a_texCoord;
+}
+)";
+
+const char* kBlurFragShader = R"(
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec2 v_texCoord;
+varying vec4 v_fragmentColor;
+uniform sampler2D CC_Texture0;
+
+void main() {
+    vec2 px = vec2(1.0 / 512.0, 1.0 / 512.0);
+    vec4 c = texture2D(CC_Texture0, v_texCoord) * 0.2;
+    c += texture2D(CC_Texture0, v_texCoord + vec2(px.x, 0.0)) * 0.2;
+    c += texture2D(CC_Texture0, v_texCoord - vec2(px.x, 0.0)) * 0.2;
+    c += texture2D(CC_Texture0, v_texCoord + vec2(0.0, px.y)) * 0.2;
+    c += texture2D(CC_Texture0, v_texCoord - vec2(0.0, px.y)) * 0.2;
+    gl_FragColor = c * v_fragmentColor;
+}
+)";
+
+void applyBlurRecursively(cocos2d::CCNode* node, cocos2d::CCGLProgram* shader) {
+    if (!node || !shader) return;
+
+    node->setShaderProgram(shader);
+
+    auto children = node->getChildren();
+    if (!children) return;
+
+    for (unsigned int i = 0; i < children->count(); i++) {
+        auto child = static_cast<cocos2d::CCNode*>(children->objectAtIndex(i));
+        applyBlurRecursively(child, shader);
+    }
+}
+}
+
 std::string Utils::narrow(const wchar_t* str) {
     if (!str) {
         return "";
@@ -183,19 +233,44 @@ std::string Utils::getSimplifiedString(std::string str) {
 }
 
 void Utils::setBackgroundColor(cocos2d::extension::CCScale9Sprite* bg) {
+    if (!bg) return;
+
     cocos2d::ccColor3B color = Mod::get()->getSettingValue<cocos2d::ccColor3B>("background_color");
 
 	if (color == ccc3(51, 68, 153))
 		color = ccc3(255, 255, 255);
 
 	bg->setColor(color);
+    Utils::applyBackgroundBlur(bg);
 }
 
 void Utils::setBackgroundColor(geode::NineSlice* bg) {
+    if (!bg) return;
+
     cocos2d::ccColor3B color = Mod::get()->getSettingValue<cocos2d::ccColor3B>("background_color");
 
     if (color == ccc3(51, 68, 153))
         color = ccc3(255, 255, 255);
 
     bg->setColor(color);
+    Utils::applyBackgroundBlur(bg);
+}
+
+void Utils::applyBackgroundBlur(cocos2d::CCNode* bg) {
+    if (!bg) return;
+
+    static cocos2d::CCGLProgram* blurShader = nullptr;
+    if (!blurShader) {
+        blurShader = cocos2d::CCGLProgram::createWithByteArrays(kBlurVertShader, kBlurFragShader);
+        if (!blurShader) return;
+
+        blurShader->addAttribute(cocos2d::kCCAttributeNamePosition, cocos2d::kCCVertexAttrib_Position);
+        blurShader->addAttribute(cocos2d::kCCAttributeNameColor, cocos2d::kCCVertexAttrib_Color);
+        blurShader->addAttribute(cocos2d::kCCAttributeNameTexCoord, cocos2d::kCCVertexAttrib_TexCoords);
+        blurShader->link();
+        blurShader->updateUniforms();
+        blurShader->retain();
+    }
+
+    applyBlurRecursively(bg, blurShader);
 }
