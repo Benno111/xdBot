@@ -15,6 +15,7 @@
 #include <array>
 #include <algorithm>
 #include <cctype>
+#include <charconv>
 #include <filesystem>
 #include <fstream>
 
@@ -230,6 +231,21 @@ static std::string resolveHardwareAccelMode() {
     return mode;
 }
 
+static int64_t parseInt64Safe(std::string const& raw, int64_t fallback) {
+    if (raw.empty()) return fallback;
+
+    auto begin = raw.data();
+    auto end = begin + raw.size();
+    while (begin < end && std::isspace(static_cast<unsigned char>(*begin))) ++begin;
+    while (end > begin && std::isspace(static_cast<unsigned char>(*(end - 1)))) --end;
+    if (begin >= end) return fallback;
+
+    int64_t value = 0;
+    auto [ptr, ec] = std::from_chars(begin, end, value);
+    if (ec != std::errc() || ptr != end) return fallback;
+    return value;
+}
+
 static std::string getHardwareCodecForMode(std::string const& mode) {
     if (mode == "NVIDIA NVENC")
         return "h264_nvenc";
@@ -398,7 +414,7 @@ void Renderer::start() {
     float songOffset = pl->m_levelSettings->m_songOffset + (fmod->m_musicOffset / 1000.f) + (levelStartFrame / Global::getTPS());
     bool fadeIn = pl->m_levelSettings->m_fadeIn;
     bool fadeOut = pl->m_levelSettings->m_fadeOut;
-    int bitrateApi = geode::utils::numFromString<int64_t>(mod->getSavedValue<std::string>("render_bitrate")).unwrapOr(30) * 1000000;
+    int bitrateApi = static_cast<int>(parseInt64Safe(mod->getSavedValue<std::string>("render_bitrate"), 30) * 1000000);
     std::string hardwareAccelMode = resolveHardwareAccelMode();
     std::string hardwareCodec = getHardwareCodecForMode(hardwareAccelMode);
     if (!usingApi && !hardwareCodec.empty() && (codec.empty() || codec == "libx264"))
