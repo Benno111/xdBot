@@ -222,10 +222,10 @@ endif()
 setup_geode_mod(${PROJECT_NAME})
 
 if (geobot_FAST_BUILD AND TARGET ${PROJECT_NAME})
-    # Faster builds: disable LTO and compile this target in unity mode.
+    # Faster builds: disable LTO. Unity build is disabled because Geode's
+    # macro-generated symbols ($modify / $execute) can collide in unity TUs.
     set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION FALSE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        UNITY_BUILD ON
-        UNITY_BUILD_BATCH_SIZE 12
+        UNITY_BUILD OFF
     )
 endif()

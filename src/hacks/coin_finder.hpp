@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../includes.hpp"
 #include <Geode/modify/PlayLayer.hpp>
 

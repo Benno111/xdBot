@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../includes.hpp"
 
 const std::vector<std::string> buttonNames = { "hold_click", "release_click", "hold_left", "release_left", "hold_right", "release_right" };
