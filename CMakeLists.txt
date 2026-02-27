@@ -5,6 +5,7 @@ set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(geobot2 VERSION 1.0.0)
+option(geobot_FAST_BUILD "Optimize build settings for faster compile times" ON)
 
 option(geobot_ENABLE_TEST_BUILDS "Enable test targets in this project and dependencies" OFF)
 set(BUILD_TESTING ${geobot_ENABLE_TEST_BUILDS} CACHE BOOL "Build tests" FORCE)
@@ -219,3 +220,12 @@ if (TARGET GeodeBindings)
 endif()
 
 setup_geode_mod(${PROJECT_NAME})
+
+if (geobot_FAST_BUILD AND TARGET ${PROJECT_NAME})
+    # Faster builds: disable LTO and compile this target in unity mode.
+    set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION FALSE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        UNITY_BUILD ON
+        UNITY_BUILD_BATCH_SIZE 12
+    )
+endif()

@@ -134,6 +134,31 @@ class $modify(PlayLayer) {
     PlayLayer::resetLevel();
 
     auto& g = Global::get();
+    if (m_player1) m_player1->releaseAllButtons();
+    if (m_player2) m_player2->releaseAllButtons();
+
+    if (m_player1) {
+      m_player1->m_holdingLeft = false;
+      m_player1->m_holdingRight = false;
+      m_player1->m_holdingButtons[1] = false;
+      m_player1->m_holdingButtons[2] = false;
+      m_player1->m_holdingButtons[3] = false;
+    }
+
+    if (m_player2) {
+      m_player2->m_holdingLeft = false;
+      m_player2->m_holdingRight = false;
+      m_player2->m_holdingButtons[1] = false;
+      m_player2->m_holdingButtons[2] = false;
+      m_player2->m_holdingButtons[3] = false;
+    }
+
+    for (int i = 0; i < 6; i++) {
+      g.heldButtons[i] = false;
+      g.wasHolding[i] = false;
+    }
+    Macro::resetVariables();
+
     g.macroUsedInAttempt = false;
     g.framePerfectOverlayFrames = 0;
     g.framePerfectCount = 0;
@@ -363,13 +388,14 @@ class $modify(BGLHook, GJBaseGameLayer) {
 
     while (g.currentAction < g.macro.inputs.size() && frame >= g.macro.inputs[g.currentAction].frame) {
       size_t actionIndex = g.currentAction;
-      auto input = g.macro.inputs[g.currentAction];
+      auto const& input = g.macro.inputs[g.currentAction];
 
       if (frame != g.respawnFrame) {
+        bool inputPlayer2 = input.player2;
         if (Macro::flipControls())
-          input.player2 = !input.player2;
+          inputPlayer2 = !inputPlayer2;
 
-        PlayerObject* inputPlayer = input.player2 ? m_player2 : m_player1;
+        PlayerObject* inputPlayer = inputPlayer2 ? m_player2 : m_player1;
         bool isWaveClick = input.button == 1 && input.down && inputPlayer && inputPlayer->m_isDart;
         bool isWaveRelease = input.button == 1 && !input.down && inputPlayer && inputPlayer->m_isDart;
         bool isJumpPress = input.button == 1 && input.down && !(inputPlayer && inputPlayer->m_isDart);
@@ -386,12 +412,12 @@ class $modify(BGLHook, GJBaseGameLayer) {
             frame + Fields::kWiggleScanFrames,
             input.button,
             input.down,
-            input.player2,
+            inputPlayer2,
             typeName
           });
         }
 
-        GJBaseGameLayer::handleButton(input.down, input.button, input.player2);
+        GJBaseGameLayer::handleButton(input.down, input.button, inputPlayer2);
       }
 
       g.currentAction++;
@@ -416,9 +442,6 @@ class $modify(BGLHook, GJBaseGameLayer) {
 
         PlayerObject* p1 = m_player1;
         PlayerObject* p2 = m_player2;
-
-        cocos2d::CCPoint pos1 = p1->getPosition();
-        cocos2d::CCPoint pos2 = p2->getPosition();
 
         if (fix.p1.pos.x != 0.f && fix.p1.pos.y != 0.f)
           p1->setPosition(fix.p1.pos);
@@ -453,8 +476,11 @@ class $modify(BGLHook, GJBaseGameLayer) {
     });
 
     int const historyFloor = frame - (Fields::kWiggleScanFrames + 6);
-    while (!m_fields->aliveHistory.empty() && m_fields->aliveHistory.front().frame < historyFloor)
-      m_fields->aliveHistory.erase(m_fields->aliveHistory.begin());
+    size_t pruneCount = 0;
+    while (pruneCount < m_fields->aliveHistory.size() && m_fields->aliveHistory[pruneCount].frame < historyFloor)
+      pruneCount++;
+    if (pruneCount > 0)
+      m_fields->aliveHistory.erase(m_fields->aliveHistory.begin(), m_fields->aliveHistory.begin() + pruneCount);
 
     auto getAliveAt = [&](int targetFrame, bool player2, bool& known) {
       for (auto it = m_fields->aliveHistory.rbegin(); it != m_fields->aliveHistory.rend(); ++it) {
@@ -469,10 +495,13 @@ class $modify(BGLHook, GJBaseGameLayer) {
     };
 
     if (!m_fields->pendingFramePerfects.empty()) {
-      for (size_t i = 0; i < m_fields->pendingFramePerfects.size();) {
+      size_t write = 0;
+      for (size_t i = 0; i < m_fields->pendingFramePerfects.size(); i++) {
         auto const& pending = m_fields->pendingFramePerfects[i];
         if (frame < pending.resolveFrame) {
-          i++;
+          if (write != i)
+            m_fields->pendingFramePerfects[write] = pending;
+          write++;
           continue;
         }
 
@@ -502,9 +531,9 @@ class $modify(BGLHook, GJBaseGameLayer) {
             rightWiggle
           );
         }
-
-        m_fields->pendingFramePerfects.erase(m_fields->pendingFramePerfects.begin() + i);
       }
+      if (write < m_fields->pendingFramePerfects.size())
+        m_fields->pendingFramePerfects.resize(write);
     }
 
   }

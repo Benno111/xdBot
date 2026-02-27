@@ -8,10 +8,12 @@
 #include <mutex>
 #include <queue>
 #include <cmath>
+#include <cctype>
 #include <vector>
 #include <utility>
 #include <filesystem>
 #include <limits>
+#include <charconv>
 
 #include "renderer/renderer.hpp"
 #include "macro.hpp"
@@ -58,7 +60,18 @@ const std::string buttonIDs[6] = {
 inline int64_t getSavedInt64Safe(Mod* mod, std::string const& key, int64_t fallback = 0) {
     if (!mod) return fallback;
     auto raw = mod->getSavedValue<std::string>(key);
-    return geode::utils::numFromString<int64_t>(raw).unwrapOr(fallback);
+    if (raw.empty()) return fallback;
+
+    auto begin = raw.data();
+    auto end = begin + raw.size();
+    while (begin < end && std::isspace(static_cast<unsigned char>(*begin))) ++begin;
+    while (end > begin && std::isspace(static_cast<unsigned char>(*(end - 1)))) --end;
+    if (begin >= end) return fallback;
+
+    int64_t value = 0;
+    auto [ptr, ec] = std::from_chars(begin, end, value);
+    if (ec != std::errc() || ptr != end) return fallback;
+    return value;
 }
 
 #define STATIC_CREATE(class, width, height) \

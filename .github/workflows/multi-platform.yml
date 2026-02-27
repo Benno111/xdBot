@@ -17,7 +17,7 @@ jobs:
         config:
         - name: Windows
           os: windows-latest
-          build-type: RelWithDebInfo
+          build-type: Release
 
         - name: Android32
           os: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
         with:
           bindings: geode-sdk/bindings
           build-config: ${{ matrix.config.build-type || 'Release' }}
-          export-pdb: true
+          export-pdb: false
           bindings-ref: main
           combine: true
           target: ${{ matrix.config.target }}
