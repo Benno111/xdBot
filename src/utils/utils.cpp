@@ -261,12 +261,17 @@ void Utils::applyBackgroundBlur(cocos2d::CCNode* bg) {
 
     static cocos2d::CCGLProgram* blurShader = nullptr;
     if (!blurShader) {
-        blurShader = cocos2d::CCGLProgram::createWithByteArrays(kBlurVertShader, kBlurFragShader);
-        if (!blurShader) return;
+        auto* program = new cocos2d::CCGLProgram();
+        if (!program) return;
+        if (!program->initWithVertexShaderByteArray(kBlurVertShader, kBlurFragShader)) {
+            program->release();
+            return;
+        }
 
-        blurShader->addAttribute(cocos2d::kCCAttributeNamePosition, cocos2d::kCCVertexAttrib_Position);
-        blurShader->addAttribute(cocos2d::kCCAttributeNameColor, cocos2d::kCCVertexAttrib_Color);
-        blurShader->addAttribute(cocos2d::kCCAttributeNameTexCoord, cocos2d::kCCVertexAttrib_TexCoords);
+        blurShader = program;
+        blurShader->addAttribute(kCCAttributeNamePosition, cocos2d::kCCVertexAttrib_Position);
+        blurShader->addAttribute(kCCAttributeNameColor, cocos2d::kCCVertexAttrib_Color);
+        blurShader->addAttribute(kCCAttributeNameTexCoord, cocos2d::kCCVertexAttrib_TexCoords);
         blurShader->link();
         blurShader->updateUniforms();
         blurShader->retain();
